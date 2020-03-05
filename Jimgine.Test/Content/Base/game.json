@@ -1,0 +1,3 @@
+{ "GraphicsType": "Sprite", "Levels": [ 
+	{"Name": "Level One", "InitialLevel": true, "Path": "Base\\Levels\\LevelOne.json"}
+]}

@@ -1,0 +1,7 @@
+{
+"Characters": [{"File":"Base\\Characters\\player.json","Location":"0, 0, 0","IsPlayer":true}],
+"Terrain": [],
+"Items": [],
+"Events": [],
+"NextLevel": "LevelTwo.json"
+}

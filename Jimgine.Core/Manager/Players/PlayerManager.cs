@@ -31,7 +31,8 @@ namespace Jimgine.Core.Manager.Players
 
         public void Update(GameTime gameTime)
         {
-            UpdatePosition(gameTime);
+            //UpdatePosition(gameTime);
+            player.Update(gameTime);
         }
 
         public void SetPlayer(Player player)
@@ -49,50 +50,34 @@ namespace Jimgine.Core.Manager.Players
             }
         }
 
-        void SetXDirection(float x)
+        public void SetMovingRight(bool moving)
         {
-            player.Direction.X = x;
+            player.SetMovingRight(moving);
         }
 
-        void SetYDirection(float y)
+        public void SetMovingLeft(bool moving)
         {
-            player.Direction.Y = y;
+            player.SetMovingLeft(moving);
         }
 
-        public void SetMovingRight()
+        public void SetMovingUp(bool moving)
         {
-            SetMoving(true);
-            SetXDirection(1);
+            player.SetMovingUp(moving);
         }
 
-        public void SetMovingLeft()
+        public void SetMovingDown(bool moving)
         {
-            SetMoving(true);
-            SetXDirection(-1);
-        }
-
-        public void SetMovingUp()
-        {
-            SetMoving(true);
-            SetYDirection(-1);
-        }
-
-        public void SetMovingDown()
-        {
-            SetMoving(true);
-            SetYDirection(1);
+            player.SetMovingDown(moving);
         }
 
         public void SetNotMoving()
         {
-            SetMoving(false);
-            player.Direction.X = 0;
-            player.Direction.Y = 0;
+            player.SetNotMoving();
         }
 
         public void UpdatePosition(GameTime gameTime)
         {
-            player.Position += player.Direction * player.CurrentSpeed;
+           // player.Position += player.Direction * player.CurrentSpeed;
         }
     }
 }

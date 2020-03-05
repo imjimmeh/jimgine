@@ -1,6 +1,6 @@
-﻿namespace Jimgine.Core.Models.World.Characters
+﻿namespace Jimgine.Core.Models.World
 {
-    public enum CharacterStatus
+    public enum GameObjectStatus
     {
         Dead,
         Idle,

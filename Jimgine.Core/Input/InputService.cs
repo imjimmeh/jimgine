@@ -68,6 +68,41 @@ namespace Jimgine.Core.Input
             {
                 ActionKeyboardInputs();
             }
+
+            if(lastPressedKeys?.Length > 0)
+            {
+                ActionKeyboardInputFinishedCommands();
+            }
+        }
+
+        private void ActionKeyboardInputFinishedCommands()
+        {
+            for(var x = 0; x < lastPressedKeys.Length; x++)
+            {
+                for(var y = 0; y < keyboardInputs.Count; y++)
+                {
+                    if (keyboardInputs[y] == null || keyboardInputs[y].InputFinishCommand == null)
+                        continue;
+
+                    if (keyboardInputs[y].MonitoredKey == lastPressedKeys[x])
+                    {
+                        bool currentlyPressed = false;
+                        for(var z = 0; z < currentlyPressedKeys.Length; z++)
+                        {
+                            if (currentlyPressedKeys[z] == lastPressedKeys[x])
+                            {
+                                currentlyPressed = true;
+                                break;
+                            }
+                        }
+
+                        if(!currentlyPressed)
+                        {
+                            keyboardInputs[y].InputFinishCommand.Execute(keyboardInputs[y].InputCommand);
+                        }
+                    }
+                }
+            }
         }
 
         private void ActionKeyboardInputs()
@@ -80,7 +115,7 @@ namespace Jimgine.Core.Input
                         break;
 
                     if (keyboardInputs[y].MonitoredKey == currentlyPressedKeys[x])
-                        keyboardInputs[y].Command.Execute(keyboardInputs[y].Command);
+                        keyboardInputs[y].InputCommand.Execute(keyboardInputs[y].InputCommand);
                 }
             }
         }
@@ -90,7 +125,7 @@ namespace Jimgine.Core.Input
             for (var x = 0; x < keyboardInputs.Count; x++)
             {
                 if (keyboardInputs[x].MonitoredKey == Keys.None)
-                    keyboardInputs[x].Command.Execute(null);
+                    keyboardInputs[x].InputCommand.Execute(null);
             }
         }
 

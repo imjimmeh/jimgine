@@ -9,25 +9,18 @@ using System.Threading.Tasks;
 namespace Jimgine.Core.Models.World.Characters
 {
     [Serializable]
-    public class Character : GameObject
+    public class Character : MovableObject
     {
-        CharacterStatus currentStatus;
-        CharacterStatus previousStatus;
-
-        public float CurrentSpeed;
-        public Vector3 Direction;
-
-        public float MaxSpeed;
-
-        public Dictionary<CharacterStatus, SpriteData> spriteData;
+        GameObjectStatus currentStatus;
+        GameObjectStatus previousStatus;
 
         public Character()
         {
-            currentStatus = CharacterStatus.Idle;
+            currentStatus = GameObjectStatus.Idle;
             MaxSpeed = 1f;
         }
 
-        public void UpdateStatus(CharacterStatus newStatus)
+        public void UpdateStatus(GameObjectStatus newStatus)
         {
             previousStatus = currentStatus;
             currentStatus = newStatus;

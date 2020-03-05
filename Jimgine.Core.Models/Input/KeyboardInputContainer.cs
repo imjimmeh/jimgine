@@ -13,13 +13,20 @@ namespace Jimgine.Core.Models.Input
         Keys monitoredKey;
         public Keys MonitoredKey { get => monitoredKey; }
 
-        ICommand command;
-        public ICommand Command { get => command; }
+        ICommand inputCommand;
+        public ICommand InputCommand { get => inputCommand; }
 
-        public KeyboardInputContainer(Keys key, ICommand command)
+        ICommand inputFinishCommand;
+        public ICommand InputFinishCommand { get => inputFinishCommand; }
+
+        public KeyboardInputContainer(Keys key, ICommand inputCommand, ICommand inputFinishedCommand = null)
         {
             monitoredKey = key;
-            this.command = command;
+            this.inputCommand = inputCommand;
+            if(inputFinishedCommand != null)
+            {
+                inputFinishCommand = inputFinishedCommand;
+            }
         }
     }
 }

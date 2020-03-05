@@ -60,10 +60,11 @@
     <Compile Include="Graphics\Sprites\SpriteData.cs" />
     <Compile Include="Input\IInputContainer.cs" />
     <Compile Include="Input\KeyboardInputContainer.cs" />
-    <Compile Include="World\Characters\CharacterStatus.cs" />
+    <Compile Include="World\GameObjectStatus.cs" />
     <Compile Include="World\Characters\Players\Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="World\GameObject.cs" />
+    <Compile Include="World\MovableObject.cs" />
     <Compile Include="World\WorldItem.cs" />
   </ItemGroup>
   <ItemGroup>

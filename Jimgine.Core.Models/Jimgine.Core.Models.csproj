@@ -50,6 +50,8 @@
   <ItemGroup>
     <Compile Include="Config\InitialGameConfig.cs" />
     <Compile Include="Graphics\Sprites\SpriteSheet.cs" />
+    <Compile Include="Graphics\UI\IUIComponent.cs" />
+    <Compile Include="Graphics\UI\TextInformation.cs" />
     <Compile Include="Levels\Level.cs" />
     <Compile Include="Levels\LevelData.cs" />
     <Compile Include="Levels\LevelFileData.cs" />
@@ -68,7 +70,7 @@
     <Compile Include="World\Characters\Players\Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="World\GameObject.cs" />
-    <Compile Include="World\IDrawable.cs" />
+    <Compile Include="World\ISpriteContainer.cs" />
     <Compile Include="World\MovableObject.cs" />
     <Compile Include="World\WorldItem.cs" />
   </ItemGroup>

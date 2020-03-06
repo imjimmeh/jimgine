@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Jimgine.Core.Models.World.Characters
 {
     [Serializable]
-    public abstract class Character : MovableObject, ICharacter, IHealthUnit, IDrawable
+    public abstract class Character : MovableObject, ICharacter, IHealthUnit, ISpriteContainer
     {
         GameObjectStatus currentStatus;
         GameObjectStatus previousStatus;

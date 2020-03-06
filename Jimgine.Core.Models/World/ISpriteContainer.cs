@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Jimgine.Core.Models.World
 {
-    public interface IDrawable
+    public interface ISpriteContainer
     {
         SpriteData GetSpriteData();
     }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Jimgine.Core.Models.World.Characters.Players
 {
-    public class Player : Character
+    public class Player : OffensiveCharacter
     {
 
     }

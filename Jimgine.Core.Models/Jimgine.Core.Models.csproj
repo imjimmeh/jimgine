@@ -60,6 +60,10 @@
     <Compile Include="Graphics\Sprites\SpriteData.cs" />
     <Compile Include="Input\IInputContainer.cs" />
     <Compile Include="Input\KeyboardInputContainer.cs" />
+    <Compile Include="World\Characters\ICharacter.cs" />
+    <Compile Include="World\Characters\IHealthUnit.cs" />
+    <Compile Include="World\Characters\IOffensiveUnit.cs" />
+    <Compile Include="World\Characters\OffensiveCharacter.cs" />
     <Compile Include="World\GameObjectStatus.cs" />
     <Compile Include="World\Characters\Players\Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

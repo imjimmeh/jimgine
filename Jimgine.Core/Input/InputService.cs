@@ -58,8 +58,6 @@ namespace Jimgine.Core.Input
             lastPressedKeys = currentlyPressedKeys;
             currentlyPressedKeys = currentKeyboardState.GetPressedKeys();
 
-            //Need to check last pressed keys that aren't pressed now
-            // and activate their "on NOT PRESSED" action (which doesnt exist yet)
             if (currentlyPressedKeys.Length == 0)
             {
                 ExecuteNoInputCommand();
@@ -75,8 +73,15 @@ namespace Jimgine.Core.Input
             }
         }
 
+        /// <summary>
+        /// Actions any exit commands for inputs that are no longer being pressed
+        /// </summary>
+
+        //TODO: Optimise
         private void ActionKeyboardInputFinishedCommands()
         {
+            //go through all the last pressed keys, then find matching keyboard input in the array. 
+            //If there's an input finished command, we look through all the urrently pressed keys to see if it is still bieng pressed - if not action the command
             for(var x = 0; x < lastPressedKeys.Length; x++)
             {
                 for(var y = 0; y < keyboardInputs.Count; y++)

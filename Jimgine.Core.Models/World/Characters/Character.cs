@@ -9,10 +9,14 @@ using System.Threading.Tasks;
 namespace Jimgine.Core.Models.World.Characters
 {
     [Serializable]
-    public class Character : MovableObject
+    public abstract class Character : MovableObject, ICharacter, IHealthUnit
     {
         GameObjectStatus currentStatus;
         GameObjectStatus previousStatus;
+
+        float _health;
+        public float Health { get => _health; }
+        public bool IsAlive { get => Health > 0; }
 
         public Character()
         {
@@ -30,5 +34,11 @@ namespace Jimgine.Core.Models.World.Characters
         {
             return spriteData[currentStatus];
         }
+
+        public void AddHealth(float healthToAdd)
+        {
+            _health += healthToAdd;
+        }
+
     }
 }

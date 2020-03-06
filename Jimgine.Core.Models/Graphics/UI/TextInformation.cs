@@ -22,10 +22,27 @@ namespace Jimgine.Core.Models.Graphics.UI
         Color _colour;
         public Color Colour { get => _colour; }
 
-        public void Draw(ref SpriteBatch spriteBatch, ref SpriteFont font)
+        SpriteFont _font;
+
+        public TextInformation(Vector2 position, float size, string text, Color colour, SpriteFont font)
         {
-            spriteBatch.DrawString(font, _text, _position, _colour);
+            _position = position;
+            _size = size;
+            _text = text ?? throw new ArgumentNullException(nameof(text));
+            _colour = colour;
+            _font = font ?? throw new ArgumentNullException(nameof(font));
         }
 
+        public SpriteFont Font { get => _font; }
+
+        public void Draw(ref SpriteBatch spriteBatch)
+        {
+            spriteBatch.DrawString(_font, _text, _position, _colour);
+        }
+
+        public void SetFont(SpriteFont font)
+        {
+            _font = font;
+        }
     }
 }

@@ -12,6 +12,6 @@ namespace Jimgine.Core.Models.Graphics.UI
     {
         Vector2 Position { get; }
         float Size { get; }
-        void Draw(ref SpriteBatch spriteBatch, ref SpriteFont font);
+        void Draw(ref SpriteBatch spriteBatch);
     }
 }

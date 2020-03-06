@@ -6,6 +6,7 @@ using Jimgine.Core.Models.Graphics.Sprites;
 using System.Collections.Generic;
 using Jimgine.Core.Content;
 using Jimgine.Core.Models.World.Characters;
+using Jimgine.Core.Graphics.UI;
 
 namespace Jimgine.Core.Graphics
 {
@@ -16,10 +17,10 @@ namespace Jimgine.Core.Graphics
         GraphicsDevice graphicsDevice;
         StateManager stateManager;
         SpriteBatch spriteBatch;
+        UIService uiService;
 
         Dictionary<string, Texture2D> sprites;
         #endregion
-
 
         #region constructor
         public GraphicsService(GraphicsDeviceManager graphics, GraphicsDevice graphicsDevice, StateManager stateManager)
@@ -37,6 +38,7 @@ namespace Jimgine.Core.Graphics
         {
             spriteBatch = new SpriteBatch(graphicsDevice);
             sprites = new Dictionary<string, Texture2D>();
+            uiService = new UIService(spriteBatch);
             LoadContent();
         }
 
@@ -57,6 +59,7 @@ namespace Jimgine.Core.Graphics
             DrawTerrain();
             DrawPlayer();
             DrawCharacters();
+            uiService.Update(gameTime);
 
             spriteBatch.End();
         }

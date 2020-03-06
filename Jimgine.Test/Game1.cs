@@ -13,7 +13,6 @@ namespace Jimgine.Test
     {
         GraphicsDeviceManager graphics;
         GameManager gameManager;
-        SpriteBatch spriteBatch;
 
         public Game1()
         {

@@ -3,8 +3,9 @@
   "CurrentSpeed": 0.0,
   "Direction": "0, 0, 0",
   "Position": "0, 0, 0",
+  "Health":  100,
   "MaxSpeed" :  5,
-  "spriteData": {
+  "SpriteData": {
     "Idle": {
       "Area": {
         "X": 0,

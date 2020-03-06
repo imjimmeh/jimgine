@@ -73,13 +73,13 @@ namespace Jimgine.Core.Graphics
                 if (character == null)
                     continue;
 
-                spriteBatch.Draw(sprites[character.GetCurrentSpriteInfo().TexturePath], new Vector2(character.Position.X, character.Position.Y), character.GetCurrentSpriteInfo().Area, Color.White);
+                spriteBatch.Draw(sprites[character.GetSpriteData().TexturePath], new Vector2(character.Position.X, character.Position.Y), character.GetSpriteData().Area, Color.White);
             }
         }
 
         private void DrawPlayer()
         {
-            spriteBatch.Draw(sprites[stateManager.Player.GetCurrentSpriteInfo().TexturePath], new Vector2(stateManager.Player.Position.X, stateManager.Player.Position.Y), stateManager.Player.GetCurrentSpriteInfo().Area, Color.White);
+            spriteBatch.Draw(sprites[stateManager.Player.GetSpriteData().TexturePath], new Vector2(stateManager.Player.Position.X, stateManager.Player.Position.Y), stateManager.Player.GetSpriteData().Area, Color.White);
         }
         #endregion
 

@@ -68,6 +68,7 @@
     <Compile Include="World\Characters\Players\Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="World\GameObject.cs" />
+    <Compile Include="World\IDrawable.cs" />
     <Compile Include="World\MovableObject.cs" />
     <Compile Include="World\WorldItem.cs" />
   </ItemGroup>

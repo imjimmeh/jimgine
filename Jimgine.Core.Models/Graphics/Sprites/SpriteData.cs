@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Jimgine.Core.Models.Graphics.Sprites
 {
     [Serializable]
-    public struct SpriteData
+    public class SpriteData
     {
         public Rectangle Area;
         public string Name;

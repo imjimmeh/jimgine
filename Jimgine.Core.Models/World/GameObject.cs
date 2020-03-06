@@ -9,6 +9,5 @@ namespace Jimgine.Core.Models.World
     {
         public Vector3 Position;
         public string Name;
-        public Dictionary<GameObjectStatus, SpriteData> spriteData;
     }
 }

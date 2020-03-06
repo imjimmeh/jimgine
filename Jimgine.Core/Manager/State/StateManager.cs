@@ -79,7 +79,7 @@ namespace Jimgine.Core.Manager.State
 
         internal IEnumerable<string> GetFilesToLoad()
         {
-            return level.Characters.Where(c => c != null).Select(y => y.spriteData).SelectMany(x => x.Values).Select(x => x.TexturePath).Concat(player.spriteData.Values.Select(y => y.TexturePath));
+            return level.Characters.Where(c => c != null).Select(y => y.SpriteData).SelectMany(x => x.Values).Select(x => x.TexturePath).Concat(player.SpriteData.Values.Select(y => y.TexturePath));
         }
 
         internal IEnumerable<Character> GetCharacters()

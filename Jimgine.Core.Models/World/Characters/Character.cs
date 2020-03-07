@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Jimgine.Core.Models.Events;
 
 namespace Jimgine.Core.Models.World.Characters
 {
@@ -25,6 +26,9 @@ namespace Jimgine.Core.Models.World.Characters
 
         [JsonProperty]
         public Dictionary<GameObjectStatus, SpriteData> SpriteData { get => _spriteData; private set => _spriteData = value; }
+
+        //Events? Need a good way of doing these but will figure it out after i've done more than 1
+        public event EventHandler HealthChanges;
 
         public Character()
         {
@@ -51,6 +55,7 @@ namespace Jimgine.Core.Models.World.Characters
         public void AddHealth(float healthToAdd)
         {
             _health += healthToAdd;
+            HealthChanges?.Invoke(this, new TextValueChangeEventArgs() { NewText = Health.ToString() });
         }
 
         public SpriteData GetSpriteData()

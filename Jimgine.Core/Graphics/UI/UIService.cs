@@ -15,10 +15,10 @@ namespace Jimgine.Core.Graphics.UI
         #region Fields/Methods
         SpriteBatch _spriteBatch;
 
-        //shit we're looking after
+        //stuff the service monitors
         Dictionary<string, SpriteFont> _fonts;
         UIComponentFactory _componentFactory;
-        List<IUIComponent>uiComponents;
+        List<IUIComponent> uiComponents;
 
         public UIComponentFactory ComponentFactory { get => _componentFactory; }
         #endregion

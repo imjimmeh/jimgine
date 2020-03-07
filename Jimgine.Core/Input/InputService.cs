@@ -29,7 +29,6 @@ namespace Jimgine.Core.Input
             keyboardInputs = new List<KeyboardInputContainer>(50);
             var command = new ActionCommand(exit);
 
-            keyboardInputs.Add(new KeyboardInputContainer(Keys.Escape, command));
             SetKeyboardInput(true);
         }
 
@@ -53,6 +52,7 @@ namespace Jimgine.Core.Input
         {
             keyboardInputs.Add(input);
         }
+
         void CheckForInput(GameTime gameTime)
         {
             lastPressedKeys = currentlyPressedKeys;
@@ -77,7 +77,7 @@ namespace Jimgine.Core.Input
         /// Actions any exit commands for inputs that are no longer being pressed
         /// </summary>
 
-        //TODO: Optimise
+        //TODO: Optimise lol
         private void ActionKeyboardInputFinishedCommands()
         {
             //go through all the last pressed keys, then find matching keyboard input in the array. 

@@ -49,5 +49,10 @@ namespace Jimgine.Core.Models.Graphics.UI
         {
             _text = text;
         }
+
+        public void SetValue<T>(T value)
+        {
+            _text = value.ToString();
+        }
     }
 }

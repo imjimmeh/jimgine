@@ -31,11 +31,6 @@ namespace Jimgine.Core.Manager.State
 
         public void Initialise()
         {
-            inputService.AddInput(new KeyboardInputContainer(Keys.Left, new ActionCommand(delegate () { playerManager.SetMovingLeft(true); }), new ActionCommand(delegate () { playerManager.SetMovingLeft(false); })));
-            inputService.AddInput(new KeyboardInputContainer(Keys.Right, new ActionCommand(delegate () { playerManager.SetMovingRight(true); }), new ActionCommand(delegate () { playerManager.SetMovingRight(false); })));
-            inputService.AddInput(new KeyboardInputContainer(Keys.Up, new ActionCommand(delegate () { playerManager.SetMovingUp(true); }), new ActionCommand(delegate () { playerManager.SetMovingUp(false); })));
-            inputService.AddInput(new KeyboardInputContainer(Keys.Down, new ActionCommand(delegate () { playerManager.SetMovingDown(true); }), new ActionCommand(delegate () { playerManager.SetMovingDown(false); })));
-            inputService.AddInput(new KeyboardInputContainer(Keys.None, new ActionCommand(delegate () { playerManager.SetNotMoving(); })));
         }
 
         public void LoadContent()

@@ -73,6 +73,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Jimgine.Core.Models\Jimgine.Core.Models.csproj">
+      <Project>{E33C440C-A9B9-4DBE-8BB6-FA5DB7B7A127}</Project>
+      <Name>Jimgine.Core.Models</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Jimgine.Core\Jimgine.Core.csproj">
       <Project>{3ebe8cdf-43bc-419a-9ed0-a79f1b49da53}</Project>
       <Name>Jimgine.Core</Name>

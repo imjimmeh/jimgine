@@ -13,5 +13,6 @@ namespace Jimgine.Core.Models.Graphics.UI
         Vector2 Position { get; }
         float Size { get; }
         void Draw(ref SpriteBatch spriteBatch);
+        void SetValue<T>(T value);
     }
 }

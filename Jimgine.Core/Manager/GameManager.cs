@@ -18,32 +18,38 @@ using Jimgine.Core.Manager.State;
 using Jimgine.Core.Models.Levels;
 using Jimgine.Core.Models.Commands;
 using Jimgine.Core.Models.Input;
+using Jimgine.Core.Models.Graphics.UI;
 
 namespace Jimgine.Core.Manager
 {
     public class GameManager : IGameService
     {
         #region fields/properties
-        GraphicsDeviceManager graphics;
-        GraphicsDevice graphicsDevice;
-        IGameService[] gameServices;
-        GraphicsService graphicsService;
-        InputService inputService;
-        StateManager stateManager;
-        ContentManager content;
+        GraphicsDeviceManager _graphics;
+        GraphicsDevice _graphicsDevice;
+        IGameService[] _gameServices;
+        GraphicsService _graphicsService;
+        InputService _inputService;
+        StateManager _stateManager;
+        ContentManager _content;
 
         string baseConfigPath;
 
         Action Exit;
         #endregion
 
+        //TODO: Front access to these nicer
+        public InputService InputService { get => _inputService; }
+        public StateManager StateManager { get => _stateManager; }
+        public GraphicsService GraphicsService { get => _graphicsService; }
+
         #region constructors
         public GameManager(GraphicsDeviceManager graphics, GraphicsDevice graphicsDevice, Action exit, ContentManager content)
         {
-            this.graphics = graphics ?? throw new ArgumentNullException(nameof(graphics));
-            this.graphicsDevice = graphicsDevice ?? throw new ArgumentNullException(nameof(graphicsDevice));
+            this._graphics = graphics ?? throw new ArgumentNullException(nameof(graphics));
+            this._graphicsDevice = graphicsDevice ?? throw new ArgumentNullException(nameof(graphicsDevice));
             this.Exit = exit;
-            this.content = content;
+            this._content = content;
             Initialise(content);
         }
         #endregion
@@ -51,7 +57,7 @@ namespace Jimgine.Core.Manager
         #region IGameService methods
         public void Initialise(ContentManager content)
         {
-            gameServices = new IGameService[20];
+            _gameServices = new IGameService[20];
             Initialise();
         }
 
@@ -67,17 +73,13 @@ namespace Jimgine.Core.Manager
 
         public void Update(GameTime gameTime)
         {
-            for(var x = 0; x < gameServices.Length; x++)
+            for(var x = 0; x < _gameServices.Length; x++)
             {
-                if (gameServices[x] == null)
+                if (_gameServices[x] == null)
                     break;
                 else
-                    gameServices[x].Update(gameTime);
+                    _gameServices[x].Update(gameTime);
             }
-
-            /*
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();*/
         }
         #endregion
 
@@ -98,8 +100,8 @@ namespace Jimgine.Core.Manager
                 if (levels[x].InitialLevel)
                 {
                     var levelData = ContentService.LoadJsonFile<LevelData>(levels[x].Path);
-                    stateManager.LoadLevel(levelData);
-                    graphicsService.LoadTextures(stateManager.GetFilesToLoad());
+                    _stateManager.LoadLevel(levelData);
+                    _graphicsService.LoadTextures(_stateManager.GetFilesToLoad());
                     break;
                 }
             }
@@ -107,41 +109,36 @@ namespace Jimgine.Core.Manager
 
         public void AddService(IGameService gameService)
         {
-            gameServices[gameServices.GetFirstEmptyIndexAndCreateIfNone()] = gameService;
+            _gameServices[_gameServices.GetFirstEmptyIndexAndCreateIfNone()] = gameService;
         }
         #endregion
 
-        #region Private methods
         void InitiateGraphicsService()
         {
-            graphicsService = new GraphicsService(graphics, graphicsDevice, stateManager);
-            gameServices[gameServices.GetFirstEmptyIndexAndCreateIfNone()] = graphicsService;
+            _graphicsService = new GraphicsService(_graphics, _graphicsDevice, _stateManager);
+            _gameServices[_gameServices.GetFirstEmptyIndexAndCreateIfNone()] = _graphicsService;
         }
 
         void InitialiseInputService()
         {
-            inputService = new InputService(Exit);
-            gameServices[gameServices.GetFirstEmptyIndexAndCreateIfNone()] = inputService;
+            _inputService = new InputService(Exit);
+            _gameServices[_gameServices.GetFirstEmptyIndexAndCreateIfNone()] = _inputService;
         }
 
         public void Initialise()
         {
             InitialiseInputService();
-            ContentService.contentManager = content;
+            ContentService.contentManager = _content;
             InitialiseStateManager();
             InitiateGraphicsService();
             LoadContent();
-
-            inputService.AddInput(new KeyboardInputContainer(Keys.Escape, new ActionCommand(Exit)));
-
-            graphicsService.UIComponentFactory.CreateText(new Vector2(0, 0), 5, "my balls", Color.Black, "default");
         }
+
 
         private void InitialiseStateManager()
         {
-            stateManager = new StateManager(inputService);
-            gameServices[gameServices.GetFirstEmptyIndexAndCreateIfNone()] = stateManager;
+            _stateManager = new StateManager(_inputService);
+            _gameServices[_gameServices.GetFirstEmptyIndexAndCreateIfNone()] = _stateManager;
         }
-        #endregion
     }
 }

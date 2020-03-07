@@ -133,6 +133,8 @@ namespace Jimgine.Core.Manager
             LoadContent();
 
             inputService.AddInput(new KeyboardInputContainer(Keys.Escape, new ActionCommand(Exit)));
+
+            graphicsService.UIComponentFactory.CreateText(new Vector2(0, 0), 5, "my balls", Color.Black, "default");
         }
 
         private void InitialiseStateManager()

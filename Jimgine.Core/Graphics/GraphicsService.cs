@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using Jimgine.Core.Content;
 using Jimgine.Core.Models.World.Characters;
 using Jimgine.Core.Graphics.UI;
+using Jimgine.Core.Models.Graphics.UI;
 
 namespace Jimgine.Core.Graphics
 {
@@ -20,6 +21,9 @@ namespace Jimgine.Core.Graphics
         UIService uiService;
 
         Dictionary<string, Texture2D> sprites;
+
+        UIComponentFactory _uiComponentFactory;
+        public UIComponentFactory UIComponentFactory { get => _uiComponentFactory; }
         #endregion
 
         #region constructor
@@ -40,10 +44,12 @@ namespace Jimgine.Core.Graphics
             sprites = new Dictionary<string, Texture2D>();
             uiService = new UIService(spriteBatch);
             LoadContent();
+            _uiComponentFactory = uiService.ComponentFactory;
         }
 
         public void LoadContent()
         {
+
         }
 
         public void UnloadContent()
@@ -92,6 +98,11 @@ namespace Jimgine.Core.Graphics
             {
                 sprites[path] = ContentService.LoadContent<Texture2D>(path);
             }
+        }
+
+        public void AddUIComponent(IUIComponent component)
+        {
+            uiService.AddUIComponent(component);
         }
     }
 }

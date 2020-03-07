@@ -13,28 +13,34 @@ namespace Jimgine.Core.Graphics.UI
     public class UIService : IGameService
     {
         #region Fields/Methods
-        SpriteBatch spriteBatch;
+        SpriteBatch _spriteBatch;
 
-        Dictionary<string, SpriteFont> fonts;
+        //shit we're looking after
+        Dictionary<string, SpriteFont> _fonts;
+        UIComponentFactory _componentFactory;
+        List<IUIComponent>uiComponents;
 
-        List<IUIComponent> uiComponents;
+        public UIComponentFactory ComponentFactory { get => _componentFactory; }
         #endregion
 
         #region Constructor
-
         public UIService(SpriteBatch spriteBatch)
         {
-            this.spriteBatch = spriteBatch ?? throw new ArgumentNullException(nameof(spriteBatch));
+            this._spriteBatch = spriteBatch ?? throw new ArgumentNullException(nameof(spriteBatch));
 
             this.Initialise();
+
+            var defaultFont = LoadFont("default", "Base/fonts/Default");
         }
         #endregion
 
         #region IGameService methods
         public void Initialise()
         {
-            fonts = new Dictionary<string, SpriteFont>(20);
-            uiComponents = new List<IUIComponent>(1000);
+            _fonts = new Dictionary<string, SpriteFont>(20);
+            uiComponents = new List<IUIComponent>(1000); //randm number for now, will need optimising soon for sure but for now these can stay like this
+            _componentFactory = new UIComponentFactory(AddUIComponent, ref _fonts);
+
         }
 
         public void LoadContent()
@@ -51,24 +57,22 @@ namespace Jimgine.Core.Graphics.UI
             {
                 if(uiComponents[x] != null)
                 {
-                    uiComponents[x].Draw(ref spriteBatch);
+                    uiComponents[x].Draw(ref _spriteBatch);
                 }
             }
         }
         #endregion
 
-        public void LoadFont(string fontName, string fontPath)
+        public SpriteFont LoadFont(string fontName, string fontPath)
         {
-            fonts.Add(fontName, ContentService.LoadContent<SpriteFont>(fontPath));
+            var newFont = ContentService.LoadContent<SpriteFont>(fontPath);
+            _fonts.Add(fontName, newFont);
+            return newFont;
         }
 
         public void AddUIComponent(IUIComponent component)
         {
             uiComponents.Add(component);
         }
-
-        #region Private methods
-
-        #endregion
     }
 }

@@ -44,5 +44,10 @@ namespace Jimgine.Core.Models.Graphics.UI
         {
             _font = font;
         }
+
+        public void SetText(string text)
+        {
+            _text = text;
+        }
     }
 }

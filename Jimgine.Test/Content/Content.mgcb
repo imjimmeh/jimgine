@@ -28,6 +28,13 @@
 #begin Base/Characters/player.json
 /copy:Base/Characters/player.json
 
+#begin Base/Fonts/Default.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Base/Fonts/Default.spritefont
+
 #begin Base/game.json
 /copy:Base/game.json
 

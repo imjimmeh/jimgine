@@ -18,7 +18,9 @@ namespace Jimgine.Core.Graphics
         GraphicsDevice graphicsDevice;
         StateManager stateManager;
         SpriteBatch spriteBatch;
-        UIService uiService;
+
+        UIService _uiService;
+        public UIService UIService => _uiService;
 
         Dictionary<string, Texture2D> sprites;
 
@@ -42,9 +44,9 @@ namespace Jimgine.Core.Graphics
         {
             spriteBatch = new SpriteBatch(graphicsDevice);
             sprites = new Dictionary<string, Texture2D>();
-            uiService = new UIService(spriteBatch);
+            _uiService = new UIService(spriteBatch);
             LoadContent();
-            _uiComponentFactory = uiService.ComponentFactory;
+            _uiComponentFactory = _uiService.ComponentFactory;
         }
 
         public void LoadContent()
@@ -65,7 +67,7 @@ namespace Jimgine.Core.Graphics
             DrawTerrain();
             DrawPlayer();
             DrawCharacters();
-            uiService.Update(gameTime);
+            _uiService.Update(gameTime);
 
             spriteBatch.End();
         }
@@ -102,7 +104,7 @@ namespace Jimgine.Core.Graphics
 
         public void AddUIComponent(IUIComponent component)
         {
-            uiService.AddUIComponent(component);
+            _uiService.AddUIComponent(component);
         }
     }
 }

@@ -23,6 +23,7 @@ namespace Jimgine.Core.Models.Graphics.UI
         public Color Colour { get => _colour; }
 
         SpriteFont _font;
+        Vector2 _stringSize => _font.MeasureString(Text);
 
         public TextInformation(Vector2 position, float size, string text, Color colour, SpriteFont font)
         {
@@ -53,6 +54,22 @@ namespace Jimgine.Core.Models.Graphics.UI
         public void SetValue<T>(T value)
         {
             _text = value.ToString();
+        }
+
+        public void SetPosition(Vector2 position)
+        {
+            _position = position;
+        }
+
+        public bool IntersectsMouseCoordinates(Point mouseCoordinates)
+        {
+            if (mouseCoordinates.X < Position.X || mouseCoordinates.Y < Position.Y)
+            {
+                return false;
+            }
+            Rectangle stringArea = new Rectangle((int)Position.X, (int)Position.Y, (int)_stringSize.X, (int)_stringSize.Y);
+
+            return stringArea.Contains(mouseCoordinates);
         }
     }
 }

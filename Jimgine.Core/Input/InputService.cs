@@ -1,4 +1,6 @@
-﻿using Jimgine.Core.Models.Commands;
+﻿using Jimgine.Core.Graphics.UI;
+using Jimgine.Core.Models.Commands;
+using Jimgine.Core.Models.Graphics.UI;
 using Jimgine.Core.Models.Input;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
@@ -10,12 +12,18 @@ namespace Jimgine.Core.Input
     public class InputService : IGameService
     {
         Action exit;
-        List<KeyboardInputContainer> keyboardInputs;
+        List<KeyboardInputContainer> _keyboardInputs;
+        List<MouseInputContainer> _mouseInputs;
 
-        Keys[] currentlyPressedKeys;
-        Keys[] lastPressedKeys;
-        KeyboardState currentKeyboardState;
-        KeyboardState lastKeyboardState;
+        Keys[] _currentlyPressedKeys;
+        Keys[] _lastPressedKeys;
+        KeyboardState _currentKeyboardState;
+        KeyboardState _lastKeyboardState;
+
+        MouseState _lastMouseState;
+        MouseState _currentMouseState;
+
+        UIService _uiService;
 
         public InputService(Action exit)
         {
@@ -26,10 +34,13 @@ namespace Jimgine.Core.Input
         #region IGameService Methods
         public void Initialise()
         {
-            keyboardInputs = new List<KeyboardInputContainer>(50);
+            _keyboardInputs = new List<KeyboardInputContainer>(50);
+            _mouseInputs = new List<MouseInputContainer>(50);
+
             var command = new ActionCommand(exit);
 
             SetKeyboardInput(true);
+            _currentMouseState = Mouse.GetState();
         }
 
         public void LoadContent()
@@ -42,23 +53,73 @@ namespace Jimgine.Core.Input
 
         public void Update(GameTime gameTime)
         {
-            lastKeyboardState = currentKeyboardState;
-            currentKeyboardState = Keyboard.GetState();
+            _lastKeyboardState = _currentKeyboardState;
+            _currentKeyboardState = Keyboard.GetState();
             CheckForInput(gameTime);
         }
         #endregion
+
         #region Methods
+        public void AddUIService(UIService uiService)
+        {
+            _uiService = uiService;
+        }
+
         public void AddInput(KeyboardInputContainer input)
         {
-            keyboardInputs.Add(input);
+            _keyboardInputs.Add(input);
+        }
+
+        public void AddInput(MouseInputContainer input)
+        {
+            _mouseInputs.Add(input);
+        }
+
+        public Vector2 GetMousePosition()
+        {
+            return new Vector2(_currentMouseState.X, _currentMouseState.Y);
+        }
+
+        public IEnumerable<IUIComponent> GetInteractingUIComponents()
+        {
+            return _uiService.GetInteractingUIComponents(_currentMouseState.Position);
         }
 
         void CheckForInput(GameTime gameTime)
         {
-            lastPressedKeys = currentlyPressedKeys;
-            currentlyPressedKeys = currentKeyboardState.GetPressedKeys();
+            CheckKeyboardInput();
+            CheckMouseInput();
+        }
 
-            if (currentlyPressedKeys.Length == 0)
+        private void CheckMouseInput()
+        {
+            _lastMouseState = _currentMouseState;
+            _currentMouseState = Mouse.GetState();
+
+            for(var x = 0; x < _mouseInputs.Count; x++)
+            {
+                if(_mouseInputs[x] == null)
+                {
+                    continue;
+                }
+
+                if (_currentMouseState.LeftButton == ButtonState.Pressed && _mouseInputs[x].MonitoredButton == MouseButton.Left && _mouseInputs[x].MonitoredButtonState == ButtonState.Pressed)
+                {
+                    _mouseInputs[x].InputCommand?.Execute(_mouseInputs[x].InputCommand);
+                }
+                else if (_currentMouseState.RightButton == ButtonState.Pressed && _mouseInputs[x].MonitoredButton == MouseButton.Right && _mouseInputs[x].MonitoredButtonState == ButtonState.Pressed)
+                {
+                    _mouseInputs[x].InputCommand?.Execute(_mouseInputs[x].InputCommand);
+                }
+            }
+        }
+
+        private void CheckKeyboardInput()
+        {
+            _lastPressedKeys = _currentlyPressedKeys;
+            _currentlyPressedKeys = _currentKeyboardState.GetPressedKeys();
+
+            if (_currentlyPressedKeys.Length == 0)
             {
                 ExecuteNoInputCommand();
             }
@@ -66,8 +127,7 @@ namespace Jimgine.Core.Input
             {
                 ActionKeyboardInputs();
             }
-
-            if(lastPressedKeys?.Length > 0)
+            if (_lastPressedKeys?.Length > 0)
             {
                 ActionKeyboardInputFinishedCommands();
             }
@@ -82,19 +142,19 @@ namespace Jimgine.Core.Input
         {
             //go through all the last pressed keys, then find matching keyboard input in the array. 
             //If there's an input finished command, we look through all the urrently pressed keys to see if it is still bieng pressed - if not action the command
-            for(var x = 0; x < lastPressedKeys.Length; x++)
+            for(var x = 0; x < _lastPressedKeys.Length; x++)
             {
-                for(var y = 0; y < keyboardInputs.Count; y++)
+                for(var y = 0; y < _keyboardInputs.Count; y++)
                 {
-                    if (keyboardInputs[y] == null || keyboardInputs[y].InputFinishCommand == null)
+                    if (_keyboardInputs[y] == null || _keyboardInputs[y].InputFinishCommand == null)
                         continue;
 
-                    if (keyboardInputs[y].MonitoredKey == lastPressedKeys[x])
+                    if (_keyboardInputs[y].MonitoredKey == _lastPressedKeys[x])
                     {
                         bool currentlyPressed = false;
-                        for(var z = 0; z < currentlyPressedKeys.Length; z++)
+                        for(var z = 0; z < _currentlyPressedKeys.Length; z++)
                         {
-                            if (currentlyPressedKeys[z] == lastPressedKeys[x])
+                            if (_currentlyPressedKeys[z] == _lastPressedKeys[x])
                             {
                                 currentlyPressed = true;
                                 break;
@@ -103,7 +163,7 @@ namespace Jimgine.Core.Input
 
                         if(!currentlyPressed)
                         {
-                            keyboardInputs[y].InputFinishCommand.Execute(keyboardInputs[y].InputCommand);
+                            _keyboardInputs[y].InputFinishCommand.Execute(_keyboardInputs[y].InputCommand);
                         }
                     }
                 }
@@ -112,25 +172,25 @@ namespace Jimgine.Core.Input
 
         private void ActionKeyboardInputs()
         {
-            for (var x = 0; x < currentlyPressedKeys.Length; x++)
+            for (var x = 0; x < _currentlyPressedKeys.Length; x++)
             {
-                for (var y = 0; y < keyboardInputs.Count; y++)
+                for (var y = 0; y < _keyboardInputs.Count; y++)
                 {
-                    if (keyboardInputs[y] == null)
+                    if (_keyboardInputs[y] == null)
                         break;
 
-                    if (keyboardInputs[y].MonitoredKey == currentlyPressedKeys[x])
-                        keyboardInputs[y].InputCommand.Execute(keyboardInputs[y].InputCommand);
+                    if (_keyboardInputs[y].MonitoredKey == _currentlyPressedKeys[x])
+                        _keyboardInputs[y].InputCommand.Execute(_keyboardInputs[y].InputCommand);
                 }
             }
         }
 
         private void ExecuteNoInputCommand()
         {
-            for (var x = 0; x < keyboardInputs.Count; x++)
+            for (var x = 0; x < _keyboardInputs.Count; x++)
             {
-                if (keyboardInputs[x].MonitoredKey == Keys.None)
-                    keyboardInputs[x].InputCommand.Execute(null);
+                if (_keyboardInputs[x].MonitoredKey == Keys.None)
+                    _keyboardInputs[x].InputCommand.Execute(null);
             }
         }
 

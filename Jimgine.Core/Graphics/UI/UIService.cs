@@ -40,7 +40,6 @@ namespace Jimgine.Core.Graphics.UI
             _fonts = new Dictionary<string, SpriteFont>(20);
             uiComponents = new List<IUIComponent>(1000); //randm number for now, will need optimising soon for sure but for now these can stay like this
             _componentFactory = new UIComponentFactory(AddUIComponent, ref _fonts);
-
         }
 
         public void LoadContent()
@@ -73,6 +72,17 @@ namespace Jimgine.Core.Graphics.UI
         public void AddUIComponent(IUIComponent component)
         {
             uiComponents.Add(component);
+        }
+
+        public IEnumerable<IUIComponent> GetInteractingUIComponents(Point clickPosition)
+        {
+            for(var x = 0; x < uiComponents.Count; x++)
+            {
+                if(uiComponents[x] != null && uiComponents[x].IntersectsMouseCoordinates(clickPosition))
+                {
+                    yield return uiComponents[x];
+                }
+            }
         }
     }
 }

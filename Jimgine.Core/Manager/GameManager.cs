@@ -132,6 +132,7 @@ namespace Jimgine.Core.Manager
             InitialiseStateManager();
             InitiateGraphicsService();
             LoadContent();
+            InputService.AddUIService(GraphicsService.UIService);
         }
 
 

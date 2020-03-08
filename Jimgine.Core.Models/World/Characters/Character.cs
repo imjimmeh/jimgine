@@ -16,10 +16,10 @@ namespace Jimgine.Core.Models.World.Characters
         GameObjectStatus currentStatus;
         GameObjectStatus previousStatus;
 
-        float _health;
+        WatchableProperty<float> _health;
 
         [JsonProperty]
-        public float Health { get => _health; private set => _health = value; }
+        public float Health { get => _health.Value; private set => _health.SetValue(value); }
         public bool IsAlive { get => Health > 0; }
 
         Dictionary<GameObjectStatus, SpriteData> _spriteData { get; set; }
@@ -28,17 +28,27 @@ namespace Jimgine.Core.Models.World.Characters
         public Dictionary<GameObjectStatus, SpriteData> SpriteData { get => _spriteData; private set => _spriteData = value; }
 
         //Events? Need a good way of doing these but will figure it out after i've done more than 1
-        public event EventHandler HealthChanges;
-
+        //public event EventHandler HealthChanges;
         public Character()
         {
             currentStatus = GameObjectStatus.Idle;
+            _health = new WatchableProperty<float>(0);
         }
 
         protected Character(float health, Dictionary<GameObjectStatus, SpriteData> spriteData)
         {
-            _health = health;
+            _health = new WatchableProperty<float>(health);
             SpriteData = spriteData ?? throw new ArgumentNullException(nameof(spriteData));
+        }
+
+        public void AddHealthChangedEvent(EventHandler d)
+        {
+            _health.AddEvent(d);
+        }
+
+        public void RemoveHealthChangedEvent(EventHandler d)
+        {
+            _health.RemoveEvent(d);
         }
 
         public void UpdateStatus(GameObjectStatus newStatus)
@@ -54,8 +64,8 @@ namespace Jimgine.Core.Models.World.Characters
 
         public void AddHealth(float healthToAdd)
         {
-            _health += healthToAdd;
-            HealthChanges?.Invoke(this, new TextValueChangeEventArgs() { NewText = Health.ToString() });
+            _health.SetValue(_health.Value + healthToAdd);
+            _health.Invoke(this, new TextValueChangeEventArgs() { NewText = Health.ToString() });
         }
 
         public SpriteData GetSpriteData()

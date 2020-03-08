@@ -14,5 +14,7 @@ namespace Jimgine.Core.Models.Graphics.UI
         float Size { get; }
         void Draw(ref SpriteBatch spriteBatch);
         void SetValue<T>(T value);
+        void SetPosition(Vector2 position);
+        bool IntersectsMouseCoordinates(Point mouseCoordinates);
     }
 }

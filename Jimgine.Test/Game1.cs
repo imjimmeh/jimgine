@@ -27,6 +27,8 @@ namespace Jimgine.Test
         protected override void Initialize()
         {
             base.Initialize();
+            this.IsMouseVisible = true;
+
             gameManager = new GameManager(graphics, GraphicsDevice, Exit, Content);
             gameManager.InitialiseFromConfig(@"Base\game.json");
 
@@ -41,7 +43,7 @@ namespace Jimgine.Test
             gameManager.InputService.AddInput(new KeyboardInputContainer(Keys.D, new ActionCommand(lowerPlayersHealth)));
 
             health = gameManager.GraphicsService.UIComponentFactory.CreateText(new Vector2(0, 0), 5, gameManager.StateManager.Player.Health.ToString(), Color.Black, "default");
-            gameManager.StateManager.Player.HealthChanges += Player_HealthChanges;
+            gameManager.StateManager.Player.AddHealthChangedEvent(Player_HealthChanges);
 
             gameManager.InputService.AddInput(new KeyboardInputContainer(Keys.Left, new ActionCommand(delegate () { gameManager.StateManager.Player.SetMovingLeft(true); }), new ActionCommand(delegate () { gameManager.StateManager.Player.SetMovingLeft(false); })));
             gameManager.InputService.AddInput(new KeyboardInputContainer(Keys.Right, new ActionCommand(delegate () { gameManager.StateManager.Player.SetMovingRight(true); }), new ActionCommand(delegate () { gameManager.StateManager.Player.SetMovingRight(false); })));
@@ -49,6 +51,11 @@ namespace Jimgine.Test
             gameManager.InputService.AddInput(new KeyboardInputContainer(Keys.Down, new ActionCommand(delegate () { gameManager.StateManager.Player.SetMovingDown(true); }), new ActionCommand(delegate () { gameManager.StateManager.Player.SetMovingDown(false); })));
             gameManager.InputService.AddInput(new KeyboardInputContainer(Keys.None, new ActionCommand(delegate () { gameManager.StateManager.Player.SetNotMoving(); })));
 
+            gameManager.InputService.AddInput(new MouseInputContainer(MouseButton.Left, ButtonState.Pressed, new ActionCommand(delegate ()
+            {
+            foreach (var uiElement in gameManager.InputService.GetInteractingUIComponents())
+                    uiElement.SetPosition(gameManager.InputService.GetMousePosition());
+            })));
         }
 
         protected override void LoadContent()

@@ -42,7 +42,7 @@ namespace Jimgine.Test
 
             gameManager.InputService.AddInput(new KeyboardInputContainer(Keys.D, new ActionCommand(lowerPlayersHealth)));
 
-            health = gameManager.GraphicsService.UIComponentFactory.CreateText(new Vector2(0, 0), 5, gameManager.StateManager.Player.Health.ToString(), Color.Black, "default");
+            health = gameManager.GraphicsService.UIComponentFactory.CreateText(new Point(0, 0), 5, gameManager.StateManager.Player.Health.ToString(), Color.Black, "default", true);
             gameManager.StateManager.Player.AddHealthChangedEvent(Player_HealthChanges);
 
             gameManager.InputService.AddInput(new KeyboardInputContainer(Keys.Left, new ActionCommand(delegate () { gameManager.StateManager.Player.SetMovingLeft(true); }), new ActionCommand(delegate () { gameManager.StateManager.Player.SetMovingLeft(false); })));
@@ -53,8 +53,11 @@ namespace Jimgine.Test
 
             gameManager.InputService.AddInput(new MouseInputContainer(MouseButton.Left, ButtonState.Pressed, new ActionCommand(delegate ()
             {
-            foreach (var uiElement in gameManager.InputService.GetInteractingUIComponents())
-                    uiElement.SetPosition(gameManager.InputService.GetMousePosition());
+                foreach (var uiElement in gameManager.InputService.GetInteractingUIComponents(true))
+                {
+                    gameManager.InputService.MoveUIComponentToMouse(uiElement);
+
+                }
             })));
         }
 

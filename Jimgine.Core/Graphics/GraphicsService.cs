@@ -102,7 +102,7 @@ namespace Jimgine.Core.Graphics
             }
         }
 
-        public void AddUIComponent(IUIComponent component)
+        public void AddUIComponent(UIComponent component)
         {
             _uiService.AddUIComponent(component);
         }

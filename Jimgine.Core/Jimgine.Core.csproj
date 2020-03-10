@@ -46,12 +46,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Content\ContentService.cs" />
+    <Compile Include="Extensions\MovementRelated.cs" />
     <Compile Include="Graphics\GraphicsService.cs" />
     <Compile Include="Graphics\UI\UIComponentFactory.cs" />
     <Compile Include="Graphics\UI\UIService.cs" />
     <Compile Include="Helpers\ExtensionMethods\ArrayExtensions.cs" />
     <Compile Include="IGameService.cs" />
     <Compile Include="Input\InputService.cs" />
+    <Compile Include="Input\UIInputService.cs" />
     <Compile Include="Manager\GameManager.cs" />
     <Compile Include="Manager\Players\PlayerManager.cs" />
     <Compile Include="Manager\State\StateManager.cs" />

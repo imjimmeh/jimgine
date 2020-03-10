@@ -18,7 +18,9 @@ namespace Jimgine.Core.Graphics.UI
         //stuff the service monitors
         Dictionary<string, SpriteFont> _fonts;
         UIComponentFactory _componentFactory;
-        List<IUIComponent> uiComponents;
+        List<UIComponent> uiComponents;
+
+        Vector2? _anchor; //move somewhere better
 
         public UIComponentFactory ComponentFactory { get => _componentFactory; }
         #endregion
@@ -38,7 +40,7 @@ namespace Jimgine.Core.Graphics.UI
         public void Initialise()
         {
             _fonts = new Dictionary<string, SpriteFont>(20);
-            uiComponents = new List<IUIComponent>(1000); //randm number for now, will need optimising soon for sure but for now these can stay like this
+            uiComponents = new List<UIComponent>(1000); //randm number for now, will need optimising soon for sure but for now these can stay like this
             _componentFactory = new UIComponentFactory(AddUIComponent, ref _fonts);
         }
 
@@ -69,17 +71,23 @@ namespace Jimgine.Core.Graphics.UI
             return newFont;
         }
 
-        public void AddUIComponent(IUIComponent component)
+        public void AddUIComponent(UIComponent component)
         {
             uiComponents.Add(component);
         }
 
-        public IEnumerable<IUIComponent> GetInteractingUIComponents(Point clickPosition)
+        public IEnumerable<UIComponent> GetInteractingUIComponents(Point clickPosition, bool? movableOnly = null)
         {
             for(var x = 0; x < uiComponents.Count; x++)
             {
-                if(uiComponents[x] != null && uiComponents[x].IntersectsMouseCoordinates(clickPosition))
+                if(uiComponents[x] != null)
                 {
+                    if (movableOnly.HasValue && movableOnly == true && !uiComponents[x].IsMovable)
+                        continue;
+
+                    if (!uiComponents[x].IntersectsMouseCoordinates(clickPosition))
+                        continue;
+
                     yield return uiComponents[x];
                 }
             }

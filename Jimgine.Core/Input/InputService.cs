@@ -25,6 +25,11 @@ namespace Jimgine.Core.Input
 
         UIService _uiService;
 
+        Point? _inputAnchor;
+        Point? InputAnchor => _inputAnchor;
+
+        bool _mouseClicked => _currentMouseState.LeftButton == ButtonState.Pressed || _currentMouseState.RightButton == ButtonState.Pressed;
+
         public InputService(Action exit)
         {
             this.exit = exit;
@@ -75,14 +80,9 @@ namespace Jimgine.Core.Input
             _mouseInputs.Add(input);
         }
 
-        public Vector2 GetMousePosition()
+        public IEnumerable<UIComponent> GetInteractingUIComponents(bool? movableOnly = null)
         {
-            return new Vector2(_currentMouseState.X, _currentMouseState.Y);
-        }
-
-        public IEnumerable<IUIComponent> GetInteractingUIComponents()
-        {
-            return _uiService.GetInteractingUIComponents(_currentMouseState.Position);
+            return _uiService.GetInteractingUIComponents(_currentMouseState.Position, movableOnly);
         }
 
         void CheckForInput(GameTime gameTime)
@@ -96,7 +96,13 @@ namespace Jimgine.Core.Input
             _lastMouseState = _currentMouseState;
             _currentMouseState = Mouse.GetState();
 
-            for(var x = 0; x < _mouseInputs.Count; x++)
+            if (!_mouseClicked)
+            {
+                _inputAnchor = null;
+                return;
+            }
+
+            for (var x = 0; x < _mouseInputs.Count; x++)
             {
                 if(_mouseInputs[x] == null)
                 {
@@ -112,6 +118,26 @@ namespace Jimgine.Core.Input
                     _mouseInputs[x].InputCommand?.Execute(_mouseInputs[x].InputCommand);
                 }
             }
+        }
+
+        //move to UI service
+        private void SetInputAnchor(ref UIComponent component, ref Point mousePosition)
+        {
+            if (InputAnchor != null)
+                return;
+
+            _inputAnchor = mousePosition - component.DrawablePosition;
+        }
+
+        public void MoveUIComponent(ref UIComponent component, Point newPosition)
+        {
+            SetInputAnchor(ref component, ref newPosition);
+            component.MoveTo(newPosition - _inputAnchor.Value);
+        }
+
+        public void MoveUIComponentToMouse(UIComponent component)
+        {
+            MoveUIComponent(ref component, _currentMouseState.Position);
         }
 
         private void CheckKeyboardInput()

@@ -11,7 +11,9 @@ namespace Jimgine.Core.Models.Levels
     public class LevelCharacterInformation
     {
         public string File;
+
         public Vector3 Location;
+
         public bool IsPlayer;
     }
 }

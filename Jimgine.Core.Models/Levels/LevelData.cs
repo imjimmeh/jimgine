@@ -11,6 +11,7 @@ namespace Jimgine.Core.Models.Levels
     public class LevelData
     {
         public LevelCharacterInformation[] Characters { get; set; }
+        public LevelLayerInformation[] Layers { get; set; }
 
         [JsonProperty("NextLevel")]
         public string NextLevelFileName { get; set; }

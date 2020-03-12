@@ -56,6 +56,7 @@
     <Compile Include="Input\UIInputService.cs" />
     <Compile Include="Manager\GameManager.cs" />
     <Compile Include="Manager\Players\PlayerManager.cs" />
+    <Compile Include="Manager\State\Levels\LevelManager.cs" />
     <Compile Include="Manager\State\StateManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

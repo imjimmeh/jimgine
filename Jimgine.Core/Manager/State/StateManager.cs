@@ -1,6 +1,7 @@
 ﻿using Jimgine.Core.Content;
 using Jimgine.Core.Input;
 using Jimgine.Core.Manager.Players;
+using Jimgine.Core.Manager.State.Levels;
 using Jimgine.Core.Models.Commands;
 using Jimgine.Core.Models.Input;
 using Jimgine.Core.Models.Levels;
@@ -15,18 +16,19 @@ namespace Jimgine.Core.Manager.State
 {
     public class StateManager : IGameService
     {
-        Level level;
-        PlayerManager playerManager;
-        InputService inputService;
-        Player player;
+        LevelManager _levelManager;
+        PlayerManager _playerManager;
+        InputService _inputService;
+        Player _player;
 
-        public Player Player { get => player; }
+        public Player Player { get => _player; }
 
         public StateManager(InputService inputService)
         {
-            this.inputService = inputService;
+            _inputService = inputService;
 
-            playerManager = new PlayerManager();
+            _levelManager = new LevelManager();
+            _playerManager = new PlayerManager();
         }
 
         public void Initialise()
@@ -43,44 +45,50 @@ namespace Jimgine.Core.Manager.State
 
         public void Update(GameTime gameTime)
         {
-            playerManager.Update(gameTime);
+            _playerManager.Update(gameTime);
         }
 
         internal void LoadLevel(LevelData levelData)
         {
-            if (level != null)
-                level.Dispose();
+            int layerCount = levelData.Layers == null ? 5 : levelData.Layers.Length;
 
-            level = new Level();
-            level.Characters = new Character[levelData.Characters.Length];
-            for (var x = 0; x < level.Characters.Length; x++)
-            {
-                if (!levelData.Characters[x].IsPlayer)
-                {
+            _levelManager.LoadLevel(layerCount);
 
-                    level.Characters[x] = ContentService.LoadJsonFile<Character>(levelData.Characters[x].File);
-                    level.Characters[x].MaxSpeed = 5f;
-                }
-                else
-                { 
-                    player = ContentService.LoadJsonFile<Player>(levelData.Characters[x].File);
-                    playerManager.SetPlayer(player);
-                    player.Direction = new Vector3();
-                }
-            }
+            LoadCharacters(levelData);
 
             Initialise();
         }
 
+        private void LoadCharacters(LevelData levelData)
+        {
+            for (var x = 0; x < levelData.Characters.Length; x++)
+            {
+                LoadCharacter(levelData, x);
+            }
+        }
+
+        private void LoadCharacter(LevelData levelData, int x)
+        {
+            if (!levelData.Characters[x].IsPlayer)
+            {
+                _levelManager.AddCharacter(ContentService.LoadJsonFile<Character>(levelData.Characters[x].File)).MaxSpeed = 5f;
+            }
+            else
+            {
+                _player = ContentService.LoadJsonFile<Player>(levelData.Characters[x].File);
+                _playerManager.SetPlayer(_player);
+                _player.Direction = new Vector3();
+            }
+        }
+
         internal IEnumerable<string> GetFilesToLoad()
         {
-            return level.Characters.Where(c => c != null).Select(y => y.SpriteData).SelectMany(x => x.Values).Select(x => x.TexturePath).Concat(player.SpriteData.Values.Select(y => y.TexturePath));
+            return _levelManager.Characters.Where(c => c != null).Select(y => y.SpriteData).SelectMany(x => x.Values).Select(x => x.TexturePath).Concat(_player.SpriteData.Values.Select(y => y.TexturePath));
         }
 
         internal IEnumerable<Character> GetCharacters()
         {
-            for (var x = 0; x < level.Characters.Length; x++)
-                yield return level.Characters[x];
+            return _levelManager.Characters;
         }
     }
 }

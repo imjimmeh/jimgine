@@ -60,10 +60,13 @@
     <Compile Include="Graphics\UI\UIComponent.cs" />
     <Compile Include="Input\MouseButtonEnum.cs" />
     <Compile Include="Input\MouseInputContainer.cs" />
+    <Compile Include="Levels\Layer.cs" />
     <Compile Include="Levels\Level.cs" />
     <Compile Include="Levels\LevelData.cs" />
     <Compile Include="Levels\LevelFileData.cs" />
     <Compile Include="Levels\LevelCharacterInformation.cs" />
+    <Compile Include="Levels\LevelLayerInformation.cs" />
+    <Compile Include="Levels\Tile.cs" />
     <Compile Include="World\Characters\Character.cs" />
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\ActionCommand.cs" />

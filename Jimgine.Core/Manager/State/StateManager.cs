@@ -16,12 +16,12 @@ namespace Jimgine.Core.Manager.State
 {
     public class StateManager : IGameService
     {
-        LevelManager _levelManager;
-        PlayerManager _playerManager;
-        InputService _inputService;
-        Player _player;
+        readonly LevelManager _levelManager;
+        readonly PlayerManager _playerManager;
+        readonly InputService _inputService;
 
-        public Player Player { get => _player; }
+        public Player Player => _playerManager.Player; 
+        public LevelManager LevelManager => _levelManager;
 
         public StateManager(InputService inputService)
         {
@@ -75,15 +75,30 @@ namespace Jimgine.Core.Manager.State
             }
             else
             {
-                _player = ContentService.LoadJsonFile<Player>(levelData.Characters[x].File);
-                _playerManager.SetPlayer(_player);
-                _player.Direction = new Vector3();
+                _playerManager.SetPlayer(ContentService.LoadJsonFile<Player>(levelData.Characters[x].File));
+                _playerManager.Player.Direction = new Vector3();
             }
         }
 
         internal IEnumerable<string> GetFilesToLoad()
         {
-            return _levelManager.Characters.Where(c => c != null).Select(y => y.SpriteData).SelectMany(x => x.Values).Select(x => x.TexturePath).Concat(_player.SpriteData.Values.Select(y => y.TexturePath));
+            return CharactersSprites()
+                .Concat(PlayersSprites());
+        }
+
+        private IEnumerable<string> PlayersSprites()
+        {
+            return _playerManager.Player.SpriteData.Values.Select(y => y.TexturePath);
+        }
+
+        private IEnumerable<string> CharactersSprites()
+        {
+            return _levelManager
+                            .Characters
+                                .Where(c => c != null)
+                                    .Select(y => y.SpriteData)
+                                    .SelectMany(x => x.Values)
+                                    .Select(x => x.TexturePath);
         }
 
         internal IEnumerable<Character> GetCharacters()

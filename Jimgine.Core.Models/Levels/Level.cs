@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace Jimgine.Core.Models.Levels
 {
     public class Level : IDisposable
@@ -35,6 +36,11 @@ namespace Jimgine.Core.Models.Levels
             _objects = new List<GameObject>();
 
             isDisposing = false;
+        }
+
+        public void AddObject(GameObject gameObject)
+        {
+            _objects.Add(gameObject);
         }
 
         public Character AddCharacter(Character character)

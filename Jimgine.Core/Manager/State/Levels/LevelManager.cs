@@ -17,23 +17,27 @@ namespace Jimgine.Core.Manager.State.Levels
 
         public IEnumerable<Character> Characters => _level.Characters;
 
+        public LevelManager()
+        {
+
+        }
+
         public void Initialise()
         {
-            throw new NotImplementedException();
+            
         }
 
         public void LoadContent()
         {
-            throw new NotImplementedException();
         }
 
         public void UnloadContent()
         {
-            throw new NotImplementedException();
         }
 
         public void Update(GameTime gameTime)
         {
+
         }
 
         public void LoadLevel(int layersCount)

@@ -49,8 +49,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config\InitialGameConfig.cs" />
+    <Compile Include="Content\Levels\LevelSpriteContainer.cs" />
+    <Compile Include="Content\Levels\LevelTerrainContainer.cs" />
     <Compile Include="Core\IClickable.cs" />
-    <Compile Include="Core\IDrawable.cs" />
+    <Compile Include="Graphics\UI\IDrawableUI.cs" />
     <Compile Include="Core\IMovable.cs" />
     <Compile Include="Events\TextValueChangeEventArgs.cs" />
     <Compile Include="Events\WatchableProperty.cs" />
@@ -74,6 +76,7 @@
     <Compile Include="Input\IInputContainer.cs" />
     <Compile Include="Input\KeyboardInputContainer.cs" />
     <Compile Include="World\Characters\ICharacter.cs" />
+    <Compile Include="World\IDrawableWorld.cs" />
     <Compile Include="World\Characters\IHealthUnit.cs" />
     <Compile Include="World\Characters\IOffensiveUnit.cs" />
     <Compile Include="World\Characters\OffensiveCharacter.cs" />
@@ -86,6 +89,7 @@
     <Compile Include="World\WorldItem.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Content\Levels\LevelBase.cs" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

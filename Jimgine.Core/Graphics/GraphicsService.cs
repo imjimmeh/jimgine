@@ -1,13 +1,12 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Jimgine.Core.Content;
+using Jimgine.Core.Graphics.UI;
+using Jimgine.Core.Manager.State;
+using Jimgine.Core.Models.Graphics.UI;
+using Jimgine.Core.Models.World.Characters;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using Jimgine.Core.Manager.State;
-using Jimgine.Core.Models.Graphics.Sprites;
 using System.Collections.Generic;
-using Jimgine.Core.Content;
-using Jimgine.Core.Models.World.Characters;
-using Jimgine.Core.Graphics.UI;
-using Jimgine.Core.Models.Graphics.UI;
 
 namespace Jimgine.Core.Graphics
 {
@@ -25,7 +24,7 @@ namespace Jimgine.Core.Graphics
         Dictionary<string, Texture2D> sprites;
 
         UIComponentFactory _uiComponentFactory;
-        public UIComponentFactory UIComponentFactory { get => _uiComponentFactory; }
+        public UIComponentFactory UIComponentFactory => _uiComponentFactory; 
         #endregion
 
         #region constructor
@@ -74,7 +73,14 @@ namespace Jimgine.Core.Graphics
 
         private void DrawTerrain()
         {
-            //TODO
+            foreach (var tile in stateManager.LevelManager.GetTilesToDraw(new Point(0, 0)))
+            {
+                spriteBatch.Draw(
+                    sprites[tile.Item1.Image.TexturePath],
+                    new Vector2(tile.Item2, tile.Item3),
+                    tile.Item1.Image.Area,
+                    Color.White);
+            }
         }
 
         private void DrawCharacters()

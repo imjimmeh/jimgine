@@ -25,6 +25,18 @@
 /processorParam:TextureFormat=Color
 /build:Art/Characters/Dungeon_Character.png
 
+#begin Art/Levels/Overworld.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Art/Levels/Overworld.png
+
 #begin Base/Characters/player.json
 /copy:Base/Characters/player.json
 
@@ -38,6 +50,15 @@
 #begin Base/game.json
 /copy:Base/game.json
 
-#begin Base/Levels/LevelOne.json
-/copy:Base/Levels/LevelOne.json
+#begin Base/Levels/1/levelOneBase.json
+/copy:Base/Levels/1/levelOneBase.json
+
+#begin Base/Levels/1/levelOneCharacters.json
+/copy:Base/Levels/1/levelOneCharacters.json
+
+#begin Base/Levels/1/levelOneSprite.json
+/copy:Base/Levels/1/levelOneSprite.json
+
+#begin Base/Levels/1/levelOneTerrain.json
+/copy:Base/Levels/1/levelOneTerrain.json
 

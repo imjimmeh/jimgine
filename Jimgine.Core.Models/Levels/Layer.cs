@@ -4,6 +4,6 @@
     {
         public string Name;
 
-        public Tile[] Tiles;
+        public Tile[,] Tiles;
     }
 }

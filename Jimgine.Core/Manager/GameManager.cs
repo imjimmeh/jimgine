@@ -89,22 +89,12 @@ namespace Jimgine.Core.Manager
             baseConfigPath = configPath;
 
             var gameConfig = ContentService.LoadJsonFile<InitialGameConfig>(configPath);
-
-            LoadInitialLevel(ref gameConfig.Levels);
         }
 
-        private void LoadInitialLevel(ref LevelFileData[] levels)
+        public void LoadLevel(Level level)
         {
-            for (var x = 0; x < levels.Length; x++)
-            {
-                if (levels[x].InitialLevel)
-                {
-                    var levelData = ContentService.LoadJsonFile<LevelData>(levels[x].Path);
-                    _stateManager.LoadLevel(levelData);
-                    _graphicsService.LoadTextures(_stateManager.GetFilesToLoad());
-                    break;
-                }
-            }
+            _stateManager.LoadLevel(level);
+            _graphicsService.LoadTextures(level.SpriteNames);
         }
 
         public void AddService(IGameService gameService)

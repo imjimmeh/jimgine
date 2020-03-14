@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Jimgine.Core.Models.Levels;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 namespace Jimgine.Core

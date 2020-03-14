@@ -11,7 +11,7 @@ using Jimgine.Core.Models.Events;
 namespace Jimgine.Core.Models.World.Characters
 {
     [Serializable]
-    public abstract class Character : MovableObject, ICharacter, IHealthUnit, ISpriteContainer
+    public abstract class Character : MovableObject, ICharacter, IHealthUnit, ISpriteContainer, IDrawableWorld
     {
         GameObjectStatus currentStatus;
         GameObjectStatus previousStatus;

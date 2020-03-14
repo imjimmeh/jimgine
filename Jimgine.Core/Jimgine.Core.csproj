@@ -46,7 +46,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Content\ContentService.cs" />
-    <Compile Include="Extensions\MovementRelated.cs" />
+    <Compile Include="Extensions\Movement\MovableObjectExtensions.cs" />
     <Compile Include="Graphics\GraphicsService.cs" />
     <Compile Include="Graphics\UI\UIComponentFactory.cs" />
     <Compile Include="Graphics\UI\UIService.cs" />
@@ -56,6 +56,7 @@
     <Compile Include="Input\UIInputService.cs" />
     <Compile Include="Manager\GameManager.cs" />
     <Compile Include="Manager\Players\PlayerManager.cs" />
+    <Compile Include="Manager\State\Levels\LevelFactory.cs" />
     <Compile Include="Manager\State\Levels\LevelManager.cs" />
     <Compile Include="Manager\State\StateManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

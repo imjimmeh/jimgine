@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Jimgine.Core.Models.Core
 {
-    public interface IDrawable
+    public interface IDrawableUI
     {
         Point DrawablePosition { get; }
         void Draw(ref SpriteBatch spriteBatch);

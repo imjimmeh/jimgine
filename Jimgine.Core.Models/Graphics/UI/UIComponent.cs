@@ -6,11 +6,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using IDrawable = Jimgine.Core.Models.Core.IDrawable;
+using IDrawableUI = Jimgine.Core.Models.Core.IDrawableUI;
 
 namespace Jimgine.Core.Models.Graphics.UI
 {
-    public abstract class UIComponent : IUIComponent, IDrawable, IClickable, IMovable
+    public abstract class UIComponent : IUIComponent, IDrawableUI, IClickable, IMovable
     {
         internal bool _isMovable { get; set; }
         public bool IsMovable => _isMovable;

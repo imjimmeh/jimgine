@@ -1,11 +1,17 @@
 ﻿using Jimgine.Core.Manager;
+using Jimgine.Core.Manager.State.Levels;
 using Jimgine.Core.Models.Commands;
+using Jimgine.Core.Models.Content.Levels;
+using Jimgine.Core.Models.Graphics.Sprites;
 using Jimgine.Core.Models.Graphics.UI;
 using Jimgine.Core.Models.Input;
+using Jimgine.Core.Models.Levels;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Newtonsoft.Json;
 using System;
+using System.IO;
 
 namespace Jimgine.Test
 {
@@ -27,10 +33,13 @@ namespace Jimgine.Test
         protected override void Initialize()
         {
             base.Initialize();
+            var level = LevelFactory.GetLevel("Base\\Levels\\1\\", "levelOneBase.json");
+            Console.WriteLine("");
             this.IsMouseVisible = true;
 
             gameManager = new GameManager(graphics, GraphicsDevice, Exit, Content);
             gameManager.InitialiseFromConfig(@"Base\game.json");
+            gameManager.LoadLevel(level);
 
             //Testing stuff
             var lowerPlayersHealth = new Action(delegate ()
@@ -59,6 +68,9 @@ namespace Jimgine.Test
 
                 }
             })));
+            var ground = new SpriteData(area: new Rectangle(16, 16, 16, 16), "Ground", Color.White, "Art/Characters/Dungeon_Character");
+           
+            
         }
 
         protected override void LoadContent()

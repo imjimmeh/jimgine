@@ -48,47 +48,34 @@ namespace Jimgine.Core.Manager.State
             _playerManager.Update(gameTime);
         }
 
-        internal void LoadLevel(LevelData levelData)
+        internal void LoadLevel(Level level)
         {
-            int layerCount = levelData.Layers == null ? 5 : levelData.Layers.Length;
-
-            _levelManager.LoadLevel(layerCount);
-
-            LoadCharacters(levelData);
-
+            _levelManager.LoadLevel(level);
+            LoadPlayer(level.Player);
             Initialise();
         }
 
-        private void LoadCharacters(LevelData levelData)
+        void LoadPlayer(Player player)
         {
-            for (var x = 0; x < levelData.Characters.Length; x++)
-            {
-                LoadCharacter(levelData, x);
-            }
-        }
-
-        private void LoadCharacter(LevelData levelData, int x)
-        {
-            if (!levelData.Characters[x].IsPlayer)
-            {
-                _levelManager.AddCharacter(ContentService.LoadJsonFile<Character>(levelData.Characters[x].File)).MaxSpeed = 5f;
-            }
-            else
-            {
-                _playerManager.SetPlayer(ContentService.LoadJsonFile<Player>(levelData.Characters[x].File));
-                _playerManager.Player.Direction = new Vector3();
-            }
+            _playerManager.SetPlayer(player);
+            _playerManager.Player.Direction = new Vector3();
         }
 
         internal IEnumerable<string> GetFilesToLoad()
         {
             return CharactersSprites()
-                .Concat(PlayersSprites());
+                .Concat(PlayersSprites())
+                .Concat(TerrainSprites());
         }
 
         private IEnumerable<string> PlayersSprites()
         {
             return _playerManager.Player.SpriteData.Values.Select(y => y.TexturePath);
+        }
+
+        private IEnumerable<string> TerrainSprites()
+        {
+            return _levelManager.Level.SpriteNames != null ? _levelManager.Level.SpriteNames.Where(s => !string.IsNullOrEmpty(s)) : null;
         }
 
         private IEnumerable<string> CharactersSprites()

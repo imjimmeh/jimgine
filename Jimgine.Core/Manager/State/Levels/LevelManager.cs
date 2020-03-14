@@ -17,6 +17,8 @@ namespace Jimgine.Core.Manager.State.Levels
 
         public IEnumerable<Character> Characters => _level.Characters;
 
+        public Level Level => _level;
+
         public LevelManager()
         {
 
@@ -40,12 +42,13 @@ namespace Jimgine.Core.Manager.State.Levels
 
         }
 
-        public void LoadLevel(int layersCount)
+        public void LoadLevel(Level level)
         {
             if (_level != null)
                 _level.Dispose();
 
-            _level = new Level(layersCount);
+            //TODO: sort this
+            _level = level;
         }
 
         public void UnloadLevel()
@@ -56,6 +59,11 @@ namespace Jimgine.Core.Manager.State.Levels
         public Character AddCharacter(Character character)
         {
             return _level.AddCharacter(character);
+        }
+
+        public IEnumerable<Tuple<Tile, int, int>> GetTilesToDraw(Point cameraPosition)
+        {
+            return _level.GetTilesToDraw(cameraPosition);
         }
     }
 }

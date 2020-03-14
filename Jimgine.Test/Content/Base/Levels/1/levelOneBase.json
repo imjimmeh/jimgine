@@ -1,0 +1,6 @@
+{
+"Characters": "levelOneCharacters.json",
+"Terrain": "levelOneTerrain.json",
+"NextLevel": "2/levelTwoBase.json",
+"Sprite" : "levelOneSprite.json"
+}

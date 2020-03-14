@@ -77,7 +77,7 @@ namespace Jimgine.Core.Models.Levels
                 {
                     for(var z = 0; z < _layers[x].Tiles.GetLength(1); z++)
                     {
-                        yield return new Tuple<Tile, int, int>(_layers[x].Tiles[y, z], y + (y * TileSize), z + (z * TileSize));
+                        yield return new Tuple<Tile, int, int>(_layers[x].Tiles[y, z], (y * TileSize), (z * TileSize));
                     }
                 }
             }

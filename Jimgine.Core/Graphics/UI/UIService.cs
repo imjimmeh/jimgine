@@ -20,7 +20,7 @@ namespace Jimgine.Core.Graphics.UI
         UIComponentFactory _componentFactory;
         List<UIComponent> uiComponents;
 
-        Vector2? _anchor; //move somewhere better
+        Vector2? _anchor; //TODO: Sort this - move somewhere better
 
         public UIComponentFactory ComponentFactory { get => _componentFactory; }
         #endregion
@@ -32,6 +32,7 @@ namespace Jimgine.Core.Graphics.UI
 
             this.Initialise();
 
+            //TODO: Sort this
             var defaultFont = LoadFont("default", "Base/fonts/Default");
         }
         #endregion
@@ -40,7 +41,7 @@ namespace Jimgine.Core.Graphics.UI
         public void Initialise()
         {
             _fonts = new Dictionary<string, SpriteFont>(20);
-            uiComponents = new List<UIComponent>(1000); //randm number for now, will need optimising soon for sure but for now these can stay like this
+            uiComponents = new List<UIComponent>(1000); //TODO: randm number for now, will need optimising soon for sure but for now these can stay like this
             _componentFactory = new UIComponentFactory(AddUIComponent, ref _fonts);
         }
 

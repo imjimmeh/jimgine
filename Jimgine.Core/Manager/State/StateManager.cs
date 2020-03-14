@@ -1,14 +1,10 @@
-﻿using Jimgine.Core.Content;
-using Jimgine.Core.Input;
+﻿using Jimgine.Core.Input;
 using Jimgine.Core.Manager.Players;
 using Jimgine.Core.Manager.State.Levels;
-using Jimgine.Core.Models.Commands;
-using Jimgine.Core.Models.Input;
 using Jimgine.Core.Models.Levels;
 using Jimgine.Core.Models.World.Characters;
 using Jimgine.Core.Models.World.Characters.Players;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using System.Linq;
 

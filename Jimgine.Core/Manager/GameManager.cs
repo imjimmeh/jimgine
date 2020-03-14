@@ -1,24 +1,14 @@
-﻿using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Jimgine.Core.Helpers.ExtensionMethods;
+﻿using Jimgine.Core.Content;
 using Jimgine.Core.Graphics;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
+using Jimgine.Core.Helpers.ExtensionMethods;
 using Jimgine.Core.Input;
-using Microsoft.Xna.Framework.Content;
-using Jimgine.Core.Content;
-using Jimgine.Core.Models.Config;
-using System.IO;
-using Newtonsoft.Json;
 using Jimgine.Core.Manager.State;
+using Jimgine.Core.Models.Config;
 using Jimgine.Core.Models.Levels;
-using Jimgine.Core.Models.Commands;
-using Jimgine.Core.Models.Input;
-using Jimgine.Core.Models.Graphics.UI;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace Jimgine.Core.Manager
 {

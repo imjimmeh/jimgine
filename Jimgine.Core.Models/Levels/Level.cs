@@ -18,7 +18,7 @@ namespace Jimgine.Core.Models.Levels
         public List<Character> Characters => _characters;
 
         Layer[] _layers;
-        public Layer[] Layers { get => _layers; set => _layers = value; }
+        public Layer[] Layers => _layers;
 
         List<GameObject> _objects;
         public List<GameObject> Objects => _objects;
@@ -28,8 +28,8 @@ namespace Jimgine.Core.Models.Levels
 
         bool isDisposing;
 
+        //TODO : do these better - only in here atm because effort
         public List<string> SpriteNames { get; set; }
-
         public Player Player;
 
         public Level()
@@ -102,6 +102,7 @@ namespace Jimgine.Core.Models.Levels
                 isDisposing = true;
             }
         }
+
         public void Dispose()
         {
             Dispose(true);

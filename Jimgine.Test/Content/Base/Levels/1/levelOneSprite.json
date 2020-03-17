@@ -1,1 +1,10 @@
-{"Sprites":{"Level":[{"Area":{"X":0,"Y":0,"Width":16,"Height":16},"Name":"Ground","TransparencyColour":{"B":255,"G":255,"R":255,"A":255},"TexturePath":"Art/Levels/Overworld"}],"Characters":[{"Area":{"X":0,"Y":0,"Width":16,"Height":16},"Name":"PlayerCharacterIdle","TransparencyColour":{"B":255,"G":255,"R":255,"A":255},"TexturePath":"Art/Characters/Dungeon_Character"}]}}
+{"Sprites":
+	{
+		"Level":
+		[
+			{"Area":{"X":0,"Y":0,"Width":16,"Height":16},"Name":"Ground","TransparencyColour":{"B":255,"G":255,"R":255,"A":255},"TexturePath":"Art/Levels/Overworld"},
+			{"Area":{"X":16,"Y":16,"Width":16,"Height":16},"Name":"Water","TransparencyColour":{"B":255,"G":255,"R":255,"A":255},"TexturePath":"Art/Levels/Overworld"},
+			{"Area":{"X":16,"Y":0,"Width":16,"Height":16},"Name":"Dirt","TransparencyColour":{"B":255,"G":255,"R":255,"A":255},"TexturePath":"Art/Levels/Overworld"}
+		],
+		"Characters":
+		[{"Area":{"X":0,"Y":0,"Width":16,"Height":16},"Name":"PlayerCharacterIdle","TransparencyColour":{"B":255,"G":255,"R":255,"A":255},"TexturePath":"Art/Characters/Dungeon_Character"}]}}

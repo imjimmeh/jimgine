@@ -73,8 +73,11 @@ namespace Jimgine.Core.Graphics
 
         private void DrawTerrain()
         {
-            foreach (var tile in stateManager.LevelManager.GetTilesToDraw(new Point(0, 0)))
+            foreach (var tile in stateManager.GetTilesToDraw())
             {
+                if (tile.Item1 == null)
+                    continue;
+
                 spriteBatch.Draw(
                     sprites[tile.Item1.Image.TexturePath],
                     new Vector2(tile.Item2, tile.Item3),

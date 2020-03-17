@@ -45,7 +45,9 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Camera\CameraService.cs" />
     <Compile Include="Content\ContentService.cs" />
+    <Compile Include="Extensions\Conversions\ConversionExtensions.cs" />
     <Compile Include="Extensions\Movement\MovableObjectExtensions.cs" />
     <Compile Include="Graphics\GraphicsService.cs" />
     <Compile Include="Graphics\UI\UIComponentFactory.cs" />

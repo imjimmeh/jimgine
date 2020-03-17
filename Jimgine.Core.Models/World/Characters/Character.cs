@@ -13,14 +13,14 @@ namespace Jimgine.Core.Models.World.Characters
     [Serializable]
     public abstract class Character : MovableObject, ICharacter, IHealthUnit, ISpriteContainer, IDrawableWorld
     {
-        GameObjectStatus currentStatus;
-        GameObjectStatus previousStatus;
+        GameObjectStatus _currentStatus;
+        GameObjectStatus _previousStatus;
 
         WatchableProperty<float> _health;
 
         [JsonProperty]
         public float Health { get => _health.Value; private set => _health.SetValue(value); }
-        public bool IsAlive { get => Health > 0; }
+        public bool IsAlive  => Health > 0;
 
         Dictionary<GameObjectStatus, SpriteData> _spriteData { get; set; }
 
@@ -31,7 +31,7 @@ namespace Jimgine.Core.Models.World.Characters
         //public event EventHandler HealthChanges;
         public Character()
         {
-            currentStatus = GameObjectStatus.Idle;
+            _currentStatus = GameObjectStatus.Idle;
             _health = new WatchableProperty<float>(0);
         }
 
@@ -53,13 +53,13 @@ namespace Jimgine.Core.Models.World.Characters
 
         public void UpdateStatus(GameObjectStatus newStatus)
         {
-            previousStatus = currentStatus;
-            currentStatus = newStatus;
+            _previousStatus = _currentStatus;
+            _currentStatus = newStatus;
         }
 
         SpriteData GetCurrentSpriteInfo()
         {
-            return _spriteData[currentStatus];
+            return _spriteData[_currentStatus];
         }
 
         public void AddHealth(float healthToAdd)

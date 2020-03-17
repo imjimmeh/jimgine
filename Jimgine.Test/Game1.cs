@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework.Input;
 using Newtonsoft.Json;
 using System;
 using System.IO;
+using System.Linq;
 
 namespace Jimgine.Test
 {
@@ -34,9 +35,7 @@ namespace Jimgine.Test
         {
             base.Initialize();
             var level = LevelFactory.GetLevel("Base\\Levels\\1\\", "levelOneBase.json");
-            Console.WriteLine("");
             this.IsMouseVisible = true;
-
             gameManager = new GameManager(graphics, GraphicsDevice, Exit, Content);
             gameManager.InitialiseFromConfig(@"Base\game.json");
             gameManager.LoadLevel(level);
@@ -68,9 +67,8 @@ namespace Jimgine.Test
 
                 }
             })));
-            var ground = new SpriteData(area: new Rectangle(16, 16, 16, 16), "Ground", Color.White, "Art/Characters/Dungeon_Character");
-           
-            
+
+
         }
 
         protected override void LoadContent()

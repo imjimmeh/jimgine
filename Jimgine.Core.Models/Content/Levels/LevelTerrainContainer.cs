@@ -20,7 +20,7 @@ namespace Jimgine.Core.Models.Content.Levels
         //change this to two arrays; onne of ints, one of bools
         //file size is lmao for what it is atm
         [JsonProperty("TileInfo")]
-        public TileInfo[,] Tiles;
+        public TileInfo?[,] Tiles;
     }
 
     public struct TileInfo

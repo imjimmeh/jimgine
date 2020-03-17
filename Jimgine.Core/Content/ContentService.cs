@@ -12,7 +12,7 @@ namespace Jimgine.Core.Content
 {
     public static class ContentService
     {
-        public static ContentManager contentManager;  
+        public static ContentManager contentManager;
 
         public static T LoadContent<T>(string path)
         {

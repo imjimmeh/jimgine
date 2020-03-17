@@ -78,7 +78,10 @@ namespace Jimgine.Core.Manager.State.Levels
                 {
                     for(var z = 0; z < terrain.Layers[x].Tiles.GetLength(1); z++)
                     {
-                        layers[x].Tiles[y, z] = ConvertSprite(ref terrain.Layers[x].Tiles[y, z], ref spriteInfo);
+                        if (terrain.Layers[x].Tiles[y, z] == null)
+                            continue;
+
+                        layers[x].Tiles[y, z] = ConvertSprite(terrain.Layers[x].Tiles[y, z].Value, ref spriteInfo);
                     }
                 }
             }
@@ -86,7 +89,7 @@ namespace Jimgine.Core.Manager.State.Levels
             return layers;
         }
 
-        private static Tile ConvertSprite(ref TileInfo tileInfo, ref LevelSpriteContainer spriteInfo)
+        private static Tile ConvertSprite(TileInfo tileInfo, ref LevelSpriteContainer spriteInfo)
         {
             return new Tile()
             {

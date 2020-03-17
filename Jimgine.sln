@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jimgine.Test", "Jimgine.Tes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jimgine.Core.Models", "Jimgine.Core.Models\Jimgine.Core.Models.csproj", "{E33C440C-A9B9-4DBE-8BB6-FA5DB7B7A127}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jimgine.Unit.Testing", "Jimgine.Unit.Testing\Jimgine.Unit.Testing.csproj", "{86685EB8-A8CF-4644-ACC9-747D0768E075}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,14 @@ Global
 		{E33C440C-A9B9-4DBE-8BB6-FA5DB7B7A127}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E33C440C-A9B9-4DBE-8BB6-FA5DB7B7A127}.Release|x86.ActiveCfg = Release|Any CPU
 		{E33C440C-A9B9-4DBE-8BB6-FA5DB7B7A127}.Release|x86.Build.0 = Release|Any CPU
+		{86685EB8-A8CF-4644-ACC9-747D0768E075}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86685EB8-A8CF-4644-ACC9-747D0768E075}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86685EB8-A8CF-4644-ACC9-747D0768E075}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{86685EB8-A8CF-4644-ACC9-747D0768E075}.Debug|x86.Build.0 = Debug|Any CPU
+		{86685EB8-A8CF-4644-ACC9-747D0768E075}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86685EB8-A8CF-4644-ACC9-747D0768E075}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86685EB8-A8CF-4644-ACC9-747D0768E075}.Release|x86.ActiveCfg = Release|Any CPU
+		{86685EB8-A8CF-4644-ACC9-747D0768E075}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

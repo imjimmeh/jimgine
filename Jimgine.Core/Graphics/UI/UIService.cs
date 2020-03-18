@@ -14,6 +14,7 @@ namespace Jimgine.Core.Graphics.UI
     {
         #region Fields/Methods
         SpriteBatch _spriteBatch;
+        GraphicsDevice _graphicsDevice;
 
         //stuff the service monitors
         Dictionary<string, SpriteFont> _fonts;
@@ -26,10 +27,10 @@ namespace Jimgine.Core.Graphics.UI
         #endregion
 
         #region Constructor
-        public UIService(SpriteBatch spriteBatch)
+        public UIService(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice)
         {
             this._spriteBatch = spriteBatch ?? throw new ArgumentNullException(nameof(spriteBatch));
-
+            this._graphicsDevice = graphicsDevice ?? throw new ArgumentNullException(nameof(graphicsDevice));
             this.Initialise();
 
             //TODO: Sort this
@@ -42,7 +43,7 @@ namespace Jimgine.Core.Graphics.UI
         {
             _fonts = new Dictionary<string, SpriteFont>(20);
             uiComponents = new List<UIComponent>(1000); //TODO: randm number for now, will need optimising soon for sure but for now these can stay like this
-            _componentFactory = new UIComponentFactory(AddUIComponent, ref _fonts);
+            _componentFactory = new UIComponentFactory(AddUIComponent, ref _fonts, _graphicsDevice);
         }
 
         public void LoadContent()

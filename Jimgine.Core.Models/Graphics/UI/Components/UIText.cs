@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Jimgine.Core.Models.Graphics.UI
+namespace Jimgine.Core.Models.Graphics.UI.Components
 {
     public class UIText : UIComponent
     {

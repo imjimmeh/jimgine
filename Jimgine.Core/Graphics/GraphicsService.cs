@@ -43,7 +43,7 @@ namespace Jimgine.Core.Graphics
         {
             _spriteBatch = new SpriteBatch(_graphicsDevice);
             sprites = new Dictionary<string, Texture2D>();
-            _uiService = new UIService(_spriteBatch);
+            _uiService = new UIService(_spriteBatch, _graphicsDevice);
             LoadContent();
             _uiComponentFactory = _uiService.ComponentFactory;
         }

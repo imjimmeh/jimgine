@@ -53,13 +53,14 @@
     <Compile Include="Content\Levels\LevelTerrainContainer.cs" />
     <Compile Include="Core\IClickable.cs" />
     <Compile Include="Graphics\SpriteDrawInformation.cs" />
+    <Compile Include="Graphics\UI\Components\UIButton.cs" />
     <Compile Include="Graphics\UI\IDrawableUI.cs" />
     <Compile Include="Core\IMovable.cs" />
     <Compile Include="Events\TextValueChangeEventArgs.cs" />
     <Compile Include="Events\WatchableProperty.cs" />
     <Compile Include="Graphics\Sprites\SpriteSheet.cs" />
     <Compile Include="Graphics\UI\IUIComponent.cs" />
-    <Compile Include="Graphics\UI\UIText.cs" />
+    <Compile Include="Graphics\UI\Components\UIText.cs" />
     <Compile Include="Graphics\UI\UIComponent.cs" />
     <Compile Include="Input\MouseButtonEnum.cs" />
     <Compile Include="Input\MouseInputContainer.cs" />

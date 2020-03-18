@@ -77,6 +77,9 @@ namespace Jimgine.Core.Models.Levels
                 {
                     for(var z = cameraPosition.Y; z < _layers[x].Tiles.GetLength(1); z++)
                     {
+                        if (_layers[x].Tiles[y, z] == null)
+                            continue;
+
                         yield return new Tuple<Tile, Vector2>
                             (_layers[x].Tiles[y, z], new Vector2(y * TileSize, z * TileSize));
                     }

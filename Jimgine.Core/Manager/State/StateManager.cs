@@ -14,7 +14,6 @@ namespace Jimgine.Core.Manager.State
 {
     public class StateManager : IGameService
     {
-        //TODO : Move camera into graphics service? 
         //TODO: Make camera the primary service, which gets data from the other services and returns to graphics service?
         readonly CameraService _cameraService;
         readonly InputService _inputService;
@@ -30,9 +29,9 @@ namespace Jimgine.Core.Manager.State
         {
             _inputService = inputService;
 
-            _cameraService = new CameraService(800,480,16);
             _levelManager = new LevelManager();
             _playerManager = new PlayerManager();
+            _cameraService = new CameraService(800, 480, 16, _playerManager, _levelManager);
         }
 
         public void Initialise()
@@ -50,16 +49,6 @@ namespace Jimgine.Core.Manager.State
         public void Update(GameTime gameTime)
         {
             _playerManager.Update(gameTime);
-        }
-
-        public IEnumerable<Tuple<Tile, Vector2>> GetTilesToDraw()
-        {
-            return LevelManager.GetTilesToDraw(_cameraService.GetStartOfTilesToDraw(_playerManager.Player.Position.X, _playerManager.Player.Position.Y));
-        }
-
-        public Vector2 GetPlayerPosition()
-        {
-            return _cameraService.GetVisualPosition(_playerManager.Player.Position);
         }
 
         internal void LoadLevel(Level level)

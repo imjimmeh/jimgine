@@ -1,4 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Jimgine.Core.Manager.Players;
+using Jimgine.Core.Manager.State.Levels;
+using Jimgine.Core.Models.Graphics;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +12,9 @@ namespace Jimgine.Core.Camera
 {
     public class CameraService
     {
+        readonly PlayerManager _playerManager;
+        readonly LevelManager _levelManager;
+
         //TODO: actually have a camera....
         Point _position;
         public Point Position => _position;
@@ -21,10 +27,36 @@ namespace Jimgine.Core.Camera
         int _tileCountPerWidth;
         int _tileCountPerHeight;
 
-        public CameraService(int screenWidth, int screenHeight, int tileSize)
+        public CameraService(int screenWidth, int screenHeight, int tileSize, PlayerManager playerManager, LevelManager levelManager)
         {
             _tileSize = tileSize;
             Initialise(screenWidth, screenHeight);
+
+            _playerManager = playerManager;
+            _levelManager = levelManager;
+        }
+
+        public IEnumerable<SpriteDrawInformation> GetTerrain()
+        {
+            foreach(var tile in _levelManager.GetTilesToDraw(GetStartOfTilesToDraw(_playerManager.Player.Position.X, _playerManager.Player.Position.Y)))
+            {
+                yield return new SpriteDrawInformation()
+                {
+                    TexturePath = tile.Item1.Image.TexturePath,
+                    Location = GetVisualPosition(tile.Item2.X, tile.Item2.Y),
+                    Rectangle = tile.Item1.Image.Area
+                };
+            }
+        }
+
+        public SpriteDrawInformation GetPlayerDrawInformation()
+        {
+            return new SpriteDrawInformation()
+            {
+                TexturePath = _playerManager.Player.GetSpriteData().TexturePath,
+                Rectangle = _playerManager.Player.GetSpriteData().Area,
+                Location = GetVisualPosition(_playerManager.Player.Position)
+            };
         }
 
         private void Initialise(int screenWidth, int screenHeight)
@@ -54,29 +86,29 @@ namespace Jimgine.Core.Camera
             return new Point(currentScreen.X * _tileCountPerWidth, currentScreen.Y * _tileCountPerHeight);
         }
 
-        public Point GetCurrentScreen(float x, float y)
+        Point GetCurrentScreen(float x, float y)
         {
             return GetCurrentScreen((int)x, (int)y);
         }
 
-        public Vector2 GetVisualPosition(Vector3 worldPosition)
+        Vector2 GetVisualPosition(Vector3 worldPosition)
         {
             return GetVisualPosition(ref worldPosition.X, ref worldPosition.Y);
         }
 
-        public Vector2 GetVisualPosition(Vector2 worldPosition)
+        Vector2 GetVisualPosition(Vector2 worldPosition)
         {
             return GetVisualPosition(ref worldPosition.X, ref worldPosition.Y);
         }
 
-        public Vector2 GetVisualPosition(ref float x, ref float y)
+        Vector2 GetVisualPosition(ref float x, ref float y)
         {
             var screen = GetCurrentScreen(x, y);
 
             return new Vector2(x - (_resolutionWidth * screen.X), y - (_resolutionHeight * screen.Y));
         }
 
-        public Vector2 GetVisualPosition(float x, float y)
+        Vector2 GetVisualPosition(float x, float y)
         {
             return GetVisualPosition(ref x, ref y);
         }

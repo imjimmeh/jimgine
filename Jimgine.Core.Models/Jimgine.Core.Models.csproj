@@ -52,6 +52,7 @@
     <Compile Include="Content\Levels\LevelSpriteContainer.cs" />
     <Compile Include="Content\Levels\LevelTerrainContainer.cs" />
     <Compile Include="Core\IClickable.cs" />
+    <Compile Include="Graphics\SpriteDrawInformation.cs" />
     <Compile Include="Graphics\UI\IDrawableUI.cs" />
     <Compile Include="Core\IMovable.cs" />
     <Compile Include="Events\TextValueChangeEventArgs.cs" />

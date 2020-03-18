@@ -1,6 +1,7 @@
 ﻿using Jimgine.Core.Content;
 using Jimgine.Core.Graphics.UI;
 using Jimgine.Core.Manager.State;
+using Jimgine.Core.Models.Graphics;
 using Jimgine.Core.Models.Graphics.UI;
 using Jimgine.Core.Models.World.Characters;
 using Microsoft.Xna.Framework;
@@ -64,8 +65,8 @@ namespace Jimgine.Core.Graphics
             _spriteBatch.Begin();
 
             DrawTerrain();
-            DrawPlayer();
-            DrawCharacters();
+            DrawPlayer(_stateManager.CameraService.GetPlayerDrawInformation());
+            //DrawCharacters();
             _uiService.Update(gameTime);
 
             _spriteBatch.End();
@@ -73,33 +74,15 @@ namespace Jimgine.Core.Graphics
 
         private void DrawTerrain()
         {
-            foreach (var tile in _stateManager.GetTilesToDraw())
+            foreach(var terrain in _stateManager.CameraService.GetTerrain())
             {
-                if (tile.Item1 == null)
-                    continue;
-
-                _spriteBatch.Draw(
-                    sprites[tile.Item1.Image.TexturePath],
-                    _stateManager.CameraService.GetVisualPosition(tile.Item2.X, tile.Item2.Y),
-                    tile.Item1.Image.Area,
-                    Color.White);
+                _spriteBatch.Draw(sprites[terrain.TexturePath],terrain.Location,terrain.Rectangle,Color.White);
             }
         }
 
-        private void DrawCharacters()
+        private void DrawPlayer(SpriteDrawInformation playerDrawInformation)
         {
-            foreach (Character character in _stateManager.GetCharacters())
-            {
-                if (character == null)
-                    continue;
-
-                _spriteBatch.Draw(sprites[character.GetSpriteData().TexturePath], new Vector2(character.Position.X, character.Position.Y), character.GetSpriteData().Area, Color.White);
-            }
-        }
-
-        private void DrawPlayer()
-        {
-            _spriteBatch.Draw(sprites[_stateManager.Player.GetSpriteData().TexturePath], _stateManager.GetPlayerPosition(), _stateManager.Player.GetSpriteData().Area, Color.White);
+            _spriteBatch.Draw(sprites[playerDrawInformation.TexturePath], playerDrawInformation.Location, playerDrawInformation.Rectangle, Color.White);
         }
         #endregion
 

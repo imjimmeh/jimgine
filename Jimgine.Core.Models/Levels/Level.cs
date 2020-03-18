@@ -32,6 +32,7 @@ namespace Jimgine.Core.Models.Levels
         public List<string> SpriteNames { get; set; }
         public Player Player;
 
+
         public Level()
         {
 
@@ -40,7 +41,7 @@ namespace Jimgine.Core.Models.Levels
         public Level(Character[] characters, Layer[] layers)
         {
             _layers = layers;
-            _characters = new List<Character>(characters.Length * 5);
+            _characters = new List<Character>(0);
             _objects = new List<GameObject>();
 
             isDisposing = false;
@@ -66,22 +67,31 @@ namespace Jimgine.Core.Models.Levels
             return character;
         }
 
-        public IEnumerable<Tuple<Tile, Vector2>> GetTilesToDraw(Point cameraPosition)
+        public IEnumerable<Tuple<Tile, Vector2>> GetTilesToDraw(Point cameraPosition, int xCount, int yCount)
         {
-            for (var x = 0; x < _layers.Length; x++)
+            int xMax = cameraPosition.X + xCount;
+            int yMax = cameraPosition.Y + yCount;
+
+            for (var l = 0; l < _layers.Length; l++)
             {
-                if (_layers[x] == null || _layers[x].Tiles == null)
+                if (_layers[l] == null || _layers[l].Tiles == null)
                     continue;
 
-                for (var y = cameraPosition.X; y < _layers[x].Tiles.GetLength(0); y++)
+                for (var x = cameraPosition.X; x < _layers[l].Tiles.GetLength(0); x++)
                 {
-                    for(var z = cameraPosition.Y; z < _layers[x].Tiles.GetLength(1); z++)
+                    for(var y = cameraPosition.Y; y < _layers[l].Tiles.GetLength(1); y++)
                     {
-                        if (_layers[x].Tiles[y, z] == null)
+                        if (_layers[l].Tiles[x, y] == null)
+                            continue;
+
+                        if (x > xMax)
+                            continue;
+
+                        if (y > yMax)
                             continue;
 
                         yield return new Tuple<Tile, Vector2>
-                            (_layers[x].Tiles[y, z], new Vector2(y * TileSize, z * TileSize));
+                            (_layers[l].Tiles[x, y], new Vector2(x * TileSize, y * TileSize));
                     }
                 }
             }

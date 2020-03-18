@@ -4,9 +4,6 @@ using Jimgine.Core.Models.Graphics;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Jimgine.Core.Camera
 {
@@ -27,6 +24,9 @@ namespace Jimgine.Core.Camera
         int _tileCountPerWidth;
         int _tileCountPerHeight;
 
+        Vector3 _playerLastPosition;
+        Point _cameraPosition;
+
         public CameraService(int screenWidth, int screenHeight, int tileSize, PlayerManager playerManager, LevelManager levelManager)
         {
             _tileSize = tileSize;
@@ -36,9 +36,14 @@ namespace Jimgine.Core.Camera
             _levelManager = levelManager;
         }
 
+        public void Update()
+        {
+            UpdatePlayerPosition();
+        }
+
         public IEnumerable<SpriteDrawInformation> GetTerrain()
         {
-            foreach(var tile in _levelManager.GetTilesToDraw(GetStartOfTilesToDraw(_playerManager.Player.Position.X, _playerManager.Player.Position.Y)))
+            foreach(var tile in _levelManager.GetTilesToDraw(_cameraPosition, _tileCountPerWidth, _tileCountPerHeight))
             {
                 yield return new SpriteDrawInformation()
                 {
@@ -57,6 +62,15 @@ namespace Jimgine.Core.Camera
                 Rectangle = _playerManager.Player.GetSpriteData().Area,
                 Location = GetVisualPosition(_playerManager.Player.Position)
             };
+        }
+
+        void UpdatePlayerPosition()
+        {
+            if (!_playerLastPosition.Equals(_playerManager.Player.Position))
+            {
+                _playerLastPosition = _playerManager.Player.Position;
+                _cameraPosition = GetStartOfTilesToDraw(_playerManager.Player.Position.X, _playerManager.Player.Position.Y);
+            }
         }
 
         private void Initialise(int screenWidth, int screenHeight)

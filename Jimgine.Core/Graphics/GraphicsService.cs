@@ -3,7 +3,6 @@ using Jimgine.Core.Graphics.UI;
 using Jimgine.Core.Manager.State;
 using Jimgine.Core.Models.Graphics;
 using Jimgine.Core.Models.Graphics.UI;
-using Jimgine.Core.Models.World.Characters;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;

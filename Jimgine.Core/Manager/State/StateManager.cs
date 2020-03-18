@@ -49,6 +49,7 @@ namespace Jimgine.Core.Manager.State
         public void Update(GameTime gameTime)
         {
             _playerManager.Update(gameTime);
+            _cameraService.Update();
         }
 
         internal void LoadLevel(Level level)

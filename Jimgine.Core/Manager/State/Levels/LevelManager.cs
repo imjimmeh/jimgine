@@ -61,9 +61,9 @@ namespace Jimgine.Core.Manager.State.Levels
             return _level.AddCharacter(character);
         }
 
-        internal IEnumerable<Tuple<Tile, Vector2>> GetTilesToDraw(Point cameraPosition)
+        internal IEnumerable<Tuple<Tile, Vector2>> GetTilesToDraw(Point cameraPosition, int xCount, int yCount)
         {
-            return _level.GetTilesToDraw(cameraPosition);
+            return _level.GetTilesToDraw(cameraPosition, xCount, yCount);
         }
     }
 }

@@ -9,24 +9,22 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static Jimgine.Core.Extensions.Conversions.ConversionExtensions;
 
 namespace Jimgine.Core.Manager.State
 {
     public class StateManager : IGameService
     {
+        //TODO : Move camera into graphics service? 
+        //TODO: Make camera the primary service, which gets data from the other services and returns to graphics service?
         readonly CameraService _cameraService;
         readonly InputService _inputService;
         readonly LevelManager _levelManager;
         readonly PlayerManager _playerManager;
 
+        //TODO: remove these public things
         public LevelManager LevelManager => _levelManager;
         public Player Player => _playerManager.Player;
-
-        public IEnumerable<Tuple<Tile, int, int>> GetTilesToDraw()
-        {
-            return LevelManager.GetTilesToDraw(_cameraService.GetScreenPosition(_playerManager.Player.Position.ToPoint()));
-        }
+        public CameraService CameraService => _cameraService;
 
         public StateManager(InputService inputService)
         {
@@ -54,6 +52,16 @@ namespace Jimgine.Core.Manager.State
             _playerManager.Update(gameTime);
         }
 
+        public IEnumerable<Tuple<Tile, Vector2>> GetTilesToDraw()
+        {
+            return LevelManager.GetTilesToDraw(_cameraService.GetStartOfTilesToDraw(_playerManager.Player.Position.X, _playerManager.Player.Position.Y));
+        }
+
+        public Vector2 GetPlayerPosition()
+        {
+            return _cameraService.GetVisualPosition(_playerManager.Player.Position);
+        }
+
         internal void LoadLevel(Level level)
         {
             _levelManager.LoadLevel(level);
@@ -67,6 +75,7 @@ namespace Jimgine.Core.Manager.State
             _playerManager.Player.Direction = new Vector3();
         }
 
+        //Move the below sprite/data loading things into separate thing somewher
         internal IEnumerable<string> GetFilesToLoad()
         {
             return CharactersSprites()

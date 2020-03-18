@@ -9,6 +9,7 @@ namespace Jimgine.Core.Camera
 {
     public class CameraService
     {
+        //TODO: actually have a camera....
         Vector2 _position;
         public Vector2 Position => _position;
 
@@ -41,11 +42,44 @@ namespace Jimgine.Core.Camera
             SetTileCounts();
         }
 
-        public Point GetScreenPosition(Point currentPlayerPosition)
+        public Point GetCurrentScreen(int x, int y)
         {
-            _screenPosition.X = currentPlayerPosition.X / _tileCountPerWidth;
-            _screenPosition.Y = currentPlayerPosition.Y / _tileCountPerHeight;
-            return _screenPosition; 
+            _screenPosition.X = x / _tileSize / _tileCountPerWidth;
+            _screenPosition.Y = y / _tileSize / _tileCountPerHeight;
+            return _screenPosition;
+        }
+
+        public Point GetStartOfTilesToDraw(float x, float y)
+        {
+            var currentScreen = GetCurrentScreen((int)x, (int)y);
+            return new Point(currentScreen.X * _tileCountPerWidth, currentScreen.Y * _tileCountPerHeight);
+        }
+
+        public Point GetCurrentScreen(float x, float y)
+        {
+            return GetCurrentScreen((int)x, (int)y);
+        }
+
+        public Vector2 GetVisualPosition(Vector3 worldPosition)
+        {
+            return GetVisualPosition(ref worldPosition.X, ref worldPosition.Y);
+        }
+
+        public Vector2 GetVisualPosition(Vector2 worldPosition)
+        {
+            return GetVisualPosition(ref worldPosition.X, ref worldPosition.Y);
+        }
+
+        public Vector2 GetVisualPosition(ref float x, ref float y)
+        {
+            var screen = GetCurrentScreen(x, y);
+
+            return new Vector2(x - (_tileCountPerWidth * _tileSize * screen.X), y - (_tileCountPerHeight * _tileSize * screen.Y));
+        }
+
+        public Vector2 GetVisualPosition(float x, float y)
+        {
+            return GetVisualPosition(ref x, ref y);
         }
 
         public void SetTileSize(int tileSize)

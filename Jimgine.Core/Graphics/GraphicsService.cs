@@ -17,14 +17,14 @@ namespace Jimgine.Core.Graphics
         GraphicsDevice graphicsDevice;
         StateManager stateManager;
         SpriteBatch spriteBatch;
-
+        
         UIService _uiService;
         public UIService UIService => _uiService;
 
         Dictionary<string, Texture2D> sprites;
 
         UIComponentFactory _uiComponentFactory;
-        public UIComponentFactory UIComponentFactory => _uiComponentFactory; 
+        public UIComponentFactory UIComponentFactory => _uiComponentFactory;
         #endregion
 
         #region constructor
@@ -80,7 +80,7 @@ namespace Jimgine.Core.Graphics
 
                 spriteBatch.Draw(
                     sprites[tile.Item1.Image.TexturePath],
-                    new Vector2(tile.Item2, tile.Item3),
+                    stateManager.CameraService.GetVisualPosition(tile.Item2.X, tile.Item2.Y),
                     tile.Item1.Image.Area,
                     Color.White);
             }
@@ -99,7 +99,7 @@ namespace Jimgine.Core.Graphics
 
         private void DrawPlayer()
         {
-            spriteBatch.Draw(sprites[stateManager.Player.GetSpriteData().TexturePath], new Vector2(stateManager.Player.Position.X, stateManager.Player.Position.Y), stateManager.Player.GetSpriteData().Area, Color.White);
+            spriteBatch.Draw(sprites[stateManager.Player.GetSpriteData().TexturePath], stateManager.GetPlayerPosition(), stateManager.Player.GetSpriteData().Area, Color.White);
         }
         #endregion
 

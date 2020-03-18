@@ -66,18 +66,19 @@ namespace Jimgine.Core.Models.Levels
             return character;
         }
 
-        public IEnumerable<Tuple<Tile, int, int>> GetTilesToDraw(Point cameraPosition)
+        public IEnumerable<Tuple<Tile, Vector2>> GetTilesToDraw(Point cameraPosition)
         {
             for (var x = 0; x < _layers.Length; x++)
             {
                 if (_layers[x] == null || _layers[x].Tiles == null)
                     continue;
 
-                for (var y = 0; y < _layers[x].Tiles.GetLength(0); y++)
+                for (var y = cameraPosition.X; y < _layers[x].Tiles.GetLength(0); y++)
                 {
-                    for(var z = 0; z < _layers[x].Tiles.GetLength(1); z++)
+                    for(var z = cameraPosition.Y; z < _layers[x].Tiles.GetLength(1); z++)
                     {
-                        yield return new Tuple<Tile, int, int>(_layers[x].Tiles[y, z], (y * TileSize), (z * TileSize));
+                        yield return new Tuple<Tile, Vector2>
+                            (_layers[x].Tiles[y, z], new Vector2(y * TileSize, z * TileSize));
                     }
                 }
             }

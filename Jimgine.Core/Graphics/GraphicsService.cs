@@ -13,10 +13,10 @@ namespace Jimgine.Core.Graphics
     public class GraphicsService : IGameService
     {
         #region fields/properties
-        GraphicsDeviceManager graphics;
-        GraphicsDevice graphicsDevice;
-        StateManager stateManager;
-        SpriteBatch spriteBatch;
+        GraphicsDeviceManager _graphics;
+        GraphicsDevice _graphicsDevice;
+        StateManager _stateManager;
+        SpriteBatch _spriteBatch;
         
         UIService _uiService;
         public UIService UIService => _uiService;
@@ -30,9 +30,9 @@ namespace Jimgine.Core.Graphics
         #region constructor
         public GraphicsService(GraphicsDeviceManager graphics, GraphicsDevice graphicsDevice, StateManager stateManager)
         {
-            this.graphics = graphics ?? throw new ArgumentNullException(nameof(graphics));
-            this.graphicsDevice = graphicsDevice ?? throw new ArgumentNullException(nameof(graphicsDevice));
-            this.stateManager = stateManager ?? throw new ArgumentNullException(nameof(stateManager));
+            this._graphics = graphics ?? throw new ArgumentNullException(nameof(graphics));
+            this._graphicsDevice = graphicsDevice ?? throw new ArgumentNullException(nameof(graphicsDevice));
+            this._stateManager = stateManager ?? throw new ArgumentNullException(nameof(stateManager));
 
             Initialise();
         }
@@ -41,9 +41,9 @@ namespace Jimgine.Core.Graphics
         #region IGameService methods
         public void Initialise()
         {
-            spriteBatch = new SpriteBatch(graphicsDevice);
+            _spriteBatch = new SpriteBatch(_graphicsDevice);
             sprites = new Dictionary<string, Texture2D>();
-            _uiService = new UIService(spriteBatch);
+            _uiService = new UIService(_spriteBatch);
             LoadContent();
             _uiComponentFactory = _uiService.ComponentFactory;
         }
@@ -60,27 +60,27 @@ namespace Jimgine.Core.Graphics
 
         public void Update(GameTime gameTime)
         {
-            graphicsDevice.Clear(Color.Aquamarine);
-            spriteBatch.Begin();
+            _graphicsDevice.Clear(Color.Aquamarine);
+            _spriteBatch.Begin();
 
             DrawTerrain();
             DrawPlayer();
             DrawCharacters();
             _uiService.Update(gameTime);
 
-            spriteBatch.End();
+            _spriteBatch.End();
         }
 
         private void DrawTerrain()
         {
-            foreach (var tile in stateManager.GetTilesToDraw())
+            foreach (var tile in _stateManager.GetTilesToDraw())
             {
                 if (tile.Item1 == null)
                     continue;
 
-                spriteBatch.Draw(
+                _spriteBatch.Draw(
                     sprites[tile.Item1.Image.TexturePath],
-                    stateManager.CameraService.GetVisualPosition(tile.Item2.X, tile.Item2.Y),
+                    _stateManager.CameraService.GetVisualPosition(tile.Item2.X, tile.Item2.Y),
                     tile.Item1.Image.Area,
                     Color.White);
             }
@@ -88,18 +88,18 @@ namespace Jimgine.Core.Graphics
 
         private void DrawCharacters()
         {
-            foreach (Character character in stateManager.GetCharacters())
+            foreach (Character character in _stateManager.GetCharacters())
             {
                 if (character == null)
                     continue;
 
-                spriteBatch.Draw(sprites[character.GetSpriteData().TexturePath], new Vector2(character.Position.X, character.Position.Y), character.GetSpriteData().Area, Color.White);
+                _spriteBatch.Draw(sprites[character.GetSpriteData().TexturePath], new Vector2(character.Position.X, character.Position.Y), character.GetSpriteData().Area, Color.White);
             }
         }
 
         private void DrawPlayer()
         {
-            spriteBatch.Draw(sprites[stateManager.Player.GetSpriteData().TexturePath], stateManager.GetPlayerPosition(), stateManager.Player.GetSpriteData().Area, Color.White);
+            _spriteBatch.Draw(sprites[_stateManager.Player.GetSpriteData().TexturePath], _stateManager.GetPlayerPosition(), _stateManager.Player.GetSpriteData().Area, Color.White);
         }
         #endregion
 

@@ -10,8 +10,8 @@ namespace Jimgine.Core.Camera
     public class CameraService
     {
         //TODO: actually have a camera....
-        Vector2 _position;
-        public Vector2 Position => _position;
+        Point _position;
+        public Point Position => _position;
 
         int _tileSize;
 
@@ -21,7 +21,6 @@ namespace Jimgine.Core.Camera
         int _tileCountPerWidth;
         int _tileCountPerHeight;
 
-        Point _screenPosition;
         public CameraService(int screenWidth, int screenHeight, int tileSize)
         {
             _tileSize = tileSize;
@@ -30,7 +29,7 @@ namespace Jimgine.Core.Camera
 
         private void Initialise(int screenWidth, int screenHeight)
         {
-            _screenPosition = new Point(0, 0);
+            _position = new Point(0, 0);
             SetScreenDimensions(screenWidth, screenHeight);
         }
 
@@ -44,9 +43,9 @@ namespace Jimgine.Core.Camera
 
         public Point GetCurrentScreen(int x, int y)
         {
-            _screenPosition.X = x / _tileSize / _tileCountPerWidth;
-            _screenPosition.Y = y / _tileSize / _tileCountPerHeight;
-            return _screenPosition;
+            _position.X = x / _tileSize / _tileCountPerWidth;
+            _position.Y = y / _tileSize / _tileCountPerHeight;
+            return _position;
         }
 
         public Point GetStartOfTilesToDraw(float x, float y)
@@ -74,7 +73,7 @@ namespace Jimgine.Core.Camera
         {
             var screen = GetCurrentScreen(x, y);
 
-            return new Vector2(x - (_tileCountPerWidth * _tileSize * screen.X), y - (_tileCountPerHeight * _tileSize * screen.Y));
+            return new Vector2(x - (_resolutionWidth * screen.X), y - (_resolutionHeight * screen.Y));
         }
 
         public Vector2 GetVisualPosition(float x, float y)
@@ -84,8 +83,11 @@ namespace Jimgine.Core.Camera
 
         public void SetTileSize(int tileSize)
         {
-        }
+            if (tileSize <= 0)
+                throw new ArgumentOutOfRangeException("tileSize", "Tile size must be greater than 0");
 
+            _tileSize = tileSize;
+        }
 
         void SetTileCounts()
         {

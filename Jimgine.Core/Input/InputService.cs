@@ -99,25 +99,29 @@ namespace Jimgine.Core.Input
             if (!_mouseClicked)
             {
                 _inputAnchor = null;
-                return;
             }
 
             for (var x = 0; x < _mouseInputs.Count; x++)
             {
-                if(_mouseInputs[x] == null)
+                if (_mouseInputs[x] == null)
                 {
                     continue;
                 }
 
-                if (_currentMouseState.LeftButton == ButtonState.Pressed && _mouseInputs[x].MonitoredButton == MouseButton.Left && _mouseInputs[x].MonitoredButtonState == ButtonState.Pressed)
+                if (MouseClicked(_currentMouseState.LeftButton, _lastMouseState.LeftButton) && _mouseInputs[x].MonitoredButton == MouseButton.Left)
                 {
                     _mouseInputs[x].InputCommand?.Execute(_mouseInputs[x].InputCommand);
                 }
-                else if (_currentMouseState.RightButton == ButtonState.Pressed && _mouseInputs[x].MonitoredButton == MouseButton.Right && _mouseInputs[x].MonitoredButtonState == ButtonState.Pressed)
+                else if (MouseClicked(_currentMouseState.RightButton, _lastMouseState.LeftButton) && _mouseInputs[x].MonitoredButton == MouseButton.Right)
                 {
                     _mouseInputs[x].InputCommand?.Execute(_mouseInputs[x].InputCommand);
                 }
             }
+        }
+
+        private static bool MouseClicked(ButtonState currentButtonState, ButtonState lastButtonState)
+        {
+            return currentButtonState == ButtonState.Released && lastButtonState == ButtonState.Pressed;
         }
 
         //move to UI service

@@ -6,6 +6,7 @@ using Jimgine.Core.Models.Graphics.Sprites;
 using Jimgine.Core.Models.Graphics.UI;
 using Jimgine.Core.Models.Input;
 using Jimgine.Core.Models.Levels;
+using Jimgine.Test.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -24,6 +25,7 @@ namespace Jimgine.Test
         GraphicsDeviceManager graphics;
         GameManager gameManager;
         IUIComponent health;
+        UIService _uiService;
 
         public Game1()
         {
@@ -50,7 +52,6 @@ namespace Jimgine.Test
 
             gameManager.InputService.AddInput(new KeyboardInputContainer(Keys.D, new ActionCommand(lowerPlayersHealth)));
 
-            health = gameManager.GraphicsService.UIComponentFactory.CreateText(new Point(0, 0), 5, gameManager.StateManager.Player.Health.ToString(), Color.Black, "default", true);
             gameManager.StateManager.Player.AddHealthChangedEvent(Player_HealthChanges);
 
             gameManager.InputService.AddInput(new KeyboardInputContainer(Keys.Left, new ActionCommand(delegate () { gameManager.StateManager.Player.SetMovingLeft(true); }), new ActionCommand(delegate () { gameManager.StateManager.Player.SetMovingLeft(false); })));
@@ -61,14 +62,19 @@ namespace Jimgine.Test
 
             gameManager.InputService.AddInput(new MouseInputContainer(MouseButton.Left, ButtonState.Pressed, new ActionCommand(delegate ()
             {
-                foreach (var uiElement in gameManager.InputService.GetInteractingUIComponents(true))
+                foreach (var uiElement in gameManager.InputService.GetInteractingUIComponents())
                 {
-                    gameManager.InputService.MoveUIComponentToMouse(uiElement);
+                    if(uiElement.IsMovable)
+                        gameManager.InputService.MoveUIComponentToMouse(uiElement);
 
+                    if (uiElement.HasEvent && uiElement.Visible)
+                        uiElement.Event(uiElement);
                 }
             })));
 
-
+            _uiService = new UIService(gameManager.GraphicsService.UIComponentFactory, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
+            _uiService.Initialise();
+            health = _uiService.CreatePlayerStatsBar(gameManager.StateManager.Player);
         }
 
         protected override void LoadContent()
@@ -94,7 +100,7 @@ namespace Jimgine.Test
 
         private void Player_HealthChanges(object sender, EventArgs e)
         {
-            health.SetValue<string>(e.ToString());
+            health.SetValue<string>($"Health: {e}");
         }
     }
 }

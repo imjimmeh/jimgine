@@ -10,16 +10,19 @@ namespace Jimgine.Core.Input
 {
     public class UIInputService
     {
-        public IEnumerable<IUIComponent> GetInteractableComponentsForClickPoint(IEnumerable<UIComponent> components, Point clickPosition, bool? movableOnly = null)
+        public IEnumerable<IUIComponent> GetInteractableComponentsForClickPoint(IEnumerable<UIGroup> groups, Point clickPosition, bool? movableOnly = null)
         {
-            foreach(var component in components)
+            foreach(var group in groups)
             {
-                if (movableOnly ?? true && !component.IsMovable)
-                    continue;
-
-                if(component.IntersectsMouseCoordinates(clickPosition))
+                foreach (var component in group.UIComponents)
                 {
-                    yield return component;
+                    if (movableOnly ?? true && !component.IsMovable)
+                        continue;
+
+                    if (component.IntersectsMouseCoordinates(group.Position, clickPosition))
+                    {
+                        yield return component;
+                    }
                 }
             }
         }

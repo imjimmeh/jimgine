@@ -11,6 +11,10 @@ namespace Jimgine.Core.Models.Core
     public interface IDrawableUI
     {
         Point DrawablePosition { get; }
-        void Draw(ref SpriteBatch spriteBatch);
+        void Draw(ref SpriteBatch spriteBatch, Point groupPosition);
+
+        bool Visible { get; }
+
+        void SetVisible(bool visible);
     }
 }

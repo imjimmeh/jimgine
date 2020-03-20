@@ -4,7 +4,7 @@
   "Direction": "0, 0, 0",
   "Position": "0, 0, 0",
   "Health":  100,
-  "MaxSpeed" :  5,
+  "MaxSpeed" :  200,
   "SpriteData": {
     "Idle": {
       "Area": {

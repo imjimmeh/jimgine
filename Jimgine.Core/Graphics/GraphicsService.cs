@@ -92,10 +92,5 @@ namespace Jimgine.Core.Graphics
                 sprites[path] = ContentService.LoadContent<Texture2D>(path);
             }
         }
-
-        public void AddUIComponent(UIComponent component)
-        {
-            _uiService.AddUIComponent(component);
-        }
     }
 }

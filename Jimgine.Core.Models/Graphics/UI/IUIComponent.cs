@@ -11,8 +11,9 @@ namespace Jimgine.Core.Models.Graphics.UI
     public interface IUIComponent
     {
         bool IsMovable { get; }
-        Rectangle Size { get; }
         void SetValue<T>(T value);
         void SetPosition(Point position);
+        Rectangle GetSize(Point groupPoint);
+        UIGroup Owner { get; }
     }
 }

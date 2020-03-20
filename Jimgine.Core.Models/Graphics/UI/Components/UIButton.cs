@@ -1,19 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Jimgine.Core.Models.Graphics.UI.Components
 {
     public class UIButton : UIComponent
     {
         Texture2D _texture;
-        Action _action;
-
-        public override Rectangle Size => _texture.Bounds;
 
         public UIButton(Texture2D texture, Vector2 position)
         {
@@ -21,17 +14,30 @@ namespace Jimgine.Core.Models.Graphics.UI.Components
             _texture = texture;
         }
 
-        public override void Draw(ref SpriteBatch spriteBatch)
+        public override void Draw(ref SpriteBatch spriteBatch, Point groupPosition)
         {
-            spriteBatch.Draw(_texture, _position.ToVector2(), Color.White);
+            if (!Visible)
+                return;
+
+            spriteBatch.Draw(_texture, (_position + groupPosition).ToVector2(), Color.White);
         }
 
         public override void SetValue<T>(T value)
         {
-            if (value.GetType() != typeof(Action))
-                throw new InvalidCastException();
+            if (value != null)
+            {
+                _event = value as Action<object>;
+                _hasEvent = true;
+            }
+        }
 
-            _action = value as Action;
+        public override Rectangle GetSize(Point groupPoint)
+        {
+            var size = _texture.Bounds;
+            size.X += groupPoint.X + _position.X;
+            size.Y += groupPoint.Y + _position.Y;
+
+            return size;
         }
     }
 }

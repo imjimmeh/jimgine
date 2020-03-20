@@ -19,7 +19,7 @@ namespace Jimgine.Core.Graphics.UI
         //stuff the service monitors
         Dictionary<string, SpriteFont> _fonts;
         UIComponentFactory _componentFactory;
-        List<UIComponent> uiComponents;
+        List<UIGroup> _uiGroups;
 
         Vector2? _anchor; //TODO: Sort this - move somewhere better
 
@@ -42,8 +42,8 @@ namespace Jimgine.Core.Graphics.UI
         public void Initialise()
         {
             _fonts = new Dictionary<string, SpriteFont>(20);
-            uiComponents = new List<UIComponent>(1000); //TODO: randm number for now, will need optimising soon for sure but for now these can stay like this
-            _componentFactory = new UIComponentFactory(AddUIComponent, ref _fonts, _graphicsDevice);
+            _uiGroups = new List<UIGroup>(100); //TODO: randm number for now, will need optimising soon for sure but for now these can stay like this
+            _componentFactory = new UIComponentFactory(AddUIGroup, ref _fonts, _graphicsDevice);
         }
 
         public void LoadContent()
@@ -56,11 +56,11 @@ namespace Jimgine.Core.Graphics.UI
 
         public void Update(GameTime gameTime)
         {
-            for(var x = 0; x < uiComponents.Count; x++)
+            for(var x = 0; x < _uiGroups.Count; x++)
             {
-                if(uiComponents[x] != null)
+                if(_uiGroups[x] != null)
                 {
-                    uiComponents[x].Draw(ref _spriteBatch);
+                    _uiGroups[x].Draw(ref _spriteBatch);
                 }
             }
         }
@@ -73,24 +73,30 @@ namespace Jimgine.Core.Graphics.UI
             return newFont;
         }
 
-        public void AddUIComponent(UIComponent component)
+        public void AddUIGroup(UIGroup group)
         {
-            uiComponents.Add(component);
+            _uiGroups.Add(group);
         }
 
         public IEnumerable<UIComponent> GetInteractingUIComponents(Point clickPosition, bool? movableOnly = null)
         {
-            for(var x = 0; x < uiComponents.Count; x++)
+            for(var x = 0; x < _uiGroups.Count; x++)
             {
-                if(uiComponents[x] != null)
+                if(_uiGroups[x] != null)
                 {
-                    if (movableOnly.HasValue && movableOnly == true && !uiComponents[x].IsMovable)
-                        continue;
+                    for (var y = 0; y < _uiGroups[x].UIComponents.Length; y++)
+                    {
+                        if (_uiGroups[x].UIComponents[y] == null)
+                            continue;
 
-                    if (!uiComponents[x].IntersectsMouseCoordinates(clickPosition))
-                        continue;
+                        if (movableOnly.HasValue && movableOnly == true && !_uiGroups[x].UIComponents[y].IsMovable)
+                            continue;
 
-                    yield return uiComponents[x];
+                        if (!_uiGroups[x].UIComponents[y].IntersectsMouseCoordinates(_uiGroups[x].Position, clickPosition))
+                            continue;
+
+                        yield return _uiGroups[x].UIComponents[y];
+                    }
                 }
             }
         }

@@ -62,6 +62,7 @@
     <Compile Include="Graphics\UI\IUIComponent.cs" />
     <Compile Include="Graphics\UI\Components\UIText.cs" />
     <Compile Include="Graphics\UI\UIComponent.cs" />
+    <Compile Include="Graphics\UI\UIGroup.cs" />
     <Compile Include="Input\MouseButtonEnum.cs" />
     <Compile Include="Input\MouseInputContainer.cs" />
     <Compile Include="Levels\Layer.cs" />

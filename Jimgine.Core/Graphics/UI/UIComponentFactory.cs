@@ -9,30 +9,46 @@ namespace Jimgine.Core.Graphics.UI
 {
     public class UIComponentFactory
     {
-        Action<UIComponent> _addUiComponent;
+        Action<UIGroup> _addUIGroup;
         Dictionary<string, SpriteFont> _fonts { get; set; }
         readonly GraphicsDevice _graphicsDevice;
 
-        public UIComponentFactory(Action<UIComponent> addUiComponent, ref Dictionary<string, SpriteFont> fonts, GraphicsDevice graphicsDevice)
+        public UIComponentFactory(Action<UIGroup> addUIGroup, ref Dictionary<string, SpriteFont> fonts, GraphicsDevice graphicsDevice)
         {
-            _addUiComponent = addUiComponent;
+            _addUIGroup = addUIGroup;
             _fonts = fonts;
             _graphicsDevice = graphicsDevice;
         }
 
-        public IUIComponent CreateText(Point position, int size, string text, Color colour, string font, bool isMovable)
+        public UIGroup CreateUIGroup(UIComponent[] components, Point position)
         {
-            var newText = new UIText(position, size, text, colour, _fonts[font], isMovable);
-            _addUiComponent(newText);
-            return newText;
+            var newGroup = new UIGroup(components, position);
+            _addUIGroup.Invoke(newGroup);
+
+            foreach(var component in components)
+            {
+                component.SetOwner(newGroup);
+            }
+
+            return newGroup;
         }
 
-        public IUIComponent CreateButton(int width, int height, Color colour, Vector2 position)
+        public UIComponent CreateText(Point position, int size, string text, Color colour, string font, bool isMovable)
         {
-            return new UIButton(CreateRectangle(ref width, ref height, ref colour), position);
+            return new UIText(position, size, text, colour, _fonts[font], isMovable);
         }
 
-        Texture2D CreateRectangle(ref int width, ref int height, ref Color colour)
+        public UIComponent CreateButtonWithBlockColour(int width, int height, Color colour, Vector2 position)
+        {
+            return new UIButton(CreateRectangleTexture(ref width, ref height, ref colour), position);
+        }
+
+        public UIComponent CreateButtonWithImage(Texture2D texture2D, Vector2 position)
+        {
+            return new UIButton(texture2D, position);
+        }
+
+        Texture2D CreateRectangleTexture(ref int width, ref int height, ref Color colour)
         {
             var textureRectangle = new Texture2D(_graphicsDevice, width, height);
             var colourData = new Color[width * height];

@@ -21,7 +21,17 @@ namespace Jimgine.Core.Models.World
 
         void MoveObject(GameTime gameTime)
         {
-            Position += Direction * CurrentSpeed;
+            Position += (Direction * CurrentSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds);
+
+            if(Position.X < 0)
+            {
+                Position.X = 0;
+            }
+
+            if(Position.Y < 0)
+            {
+                Position.Y = 0;
+            }
         }
 
         void SetMoving(bool isMoving)

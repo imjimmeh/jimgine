@@ -23,8 +23,6 @@ namespace Jimgine.Core.Models.Graphics.UI.Components
 
         int _textSize;
 
-        public override Rectangle Size => new Rectangle(_position, _stringSize);
-
         public UIText(Point position, int size, string text, Color colour, SpriteFont font, bool isMovable)
         {
             _position = position;
@@ -35,9 +33,12 @@ namespace Jimgine.Core.Models.Graphics.UI.Components
             _isMovable = isMovable;
         }
 
-        public override void Draw(ref SpriteBatch spriteBatch)
+        public override void Draw(ref SpriteBatch spriteBatch, Point groupPosition)
         {
-            spriteBatch.DrawString(_font, _text, _position.ToVector2(), _colour);
+            if (!Visible)
+                return;
+
+            spriteBatch.DrawString(_font, _text, (_position + groupPosition).ToVector2(), _colour);
         }
 
         public void SetFont(SpriteFont font)
@@ -53,6 +54,11 @@ namespace Jimgine.Core.Models.Graphics.UI.Components
         public override void SetValue<T>(T value)
         {
             _text = value.ToString();
+        }
+
+        public override Rectangle GetSize(Point groupPoint)
+        {
+            return new Rectangle(_position + groupPoint, _stringSize);
         }
     }
 }
